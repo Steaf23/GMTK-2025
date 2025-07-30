@@ -1,0 +1,84 @@
+[gd_scene load_steps=5 format=3 uid="uid://bupsu2mvx1scy"]
+
+[ext_resource type="Script" uid="uid://cc6d6md11c45e" path="res://dragon/dragon.gd" id="1_fj7yv"]
+[ext_resource type="Script" uid="uid://c6f6pfor75aa3" path="res://dragon/head.gd" id="2_tlwt5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7yv"]
+size = Vector2(71.8284, 24.543)
+
+[node name="World" type="Node2D"]
+
+[node name="Dragon" type="Node2D" parent="."]
+script = ExtResource("1_fj7yv")
+
+[node name="Head" type="CharacterBody2D" parent="Dragon"]
+collision_layer = 4
+collision_mask = 4
+motion_mode = 1
+script = ExtResource("2_tlwt5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dragon/Head"]
+shape = SubResource("CircleShape2D_aqk2v")
+
+[node name="Camera2D" type="Camera2D" parent="Dragon/Head"]
+
+[node name="Body" type="Node2D" parent="Dragon"]
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(186, 76)
+rotation = -2.60509
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(-40.2797, 37.915)
+scale = Vector2(-1.43817, 5.2127)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(108, 112)
+rotation = -0.43728
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(54, 56)
+collision_layer = 5
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1, 2)
+shape = SubResource("RectangleShape2D_fj7yv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -57.0
+offset_top = -40.0
+offset_right = 57.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Add" type="Button" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+text = "Add"
+
+[node name="Remove" type="Button" parent="CanvasLayer/HBoxContainer"]
+layout_mode = 2
+text = "Remove"
+
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/Add" to="Dragon" method="_on_add_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/Remove" to="Dragon" method="_on_remove_pressed"]

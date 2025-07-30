@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbm74415xgith"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
+
+[node name="BodySegment" type="CharacterBody2D"]
+collision_mask = 2
+motion_mode = 1
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_aqk2v")
