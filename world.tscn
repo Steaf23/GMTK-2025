@@ -14,8 +14,7 @@ size = Vector2(71.8284, 24.543)
 script = ExtResource("1_fj7yv")
 
 [node name="Head" type="CharacterBody2D" parent="Dragon"]
-collision_layer = 4
-collision_mask = 4
+collision_mask = 2
 motion_mode = 1
 script = ExtResource("2_tlwt5")
 
@@ -29,8 +28,8 @@ shape = SubResource("CircleShape2D_aqk2v")
 [node name="StaticBody2D3" type="StaticBody2D" parent="."]
 position = Vector2(186, 76)
 rotation = -2.60509
-collision_layer = 5
-collision_mask = 5
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
 position = Vector2(-40.2797, 37.915)
@@ -40,8 +39,8 @@ shape = SubResource("RectangleShape2D_fj7yv")
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 position = Vector2(108, 112)
 rotation = -0.43728
-collision_layer = 5
-collision_mask = 5
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(1, 2)
@@ -49,8 +48,8 @@ shape = SubResource("RectangleShape2D_fj7yv")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(54, 56)
-collision_layer = 5
-collision_mask = 5
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(1, 2)
