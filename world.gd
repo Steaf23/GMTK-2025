@@ -2,6 +2,10 @@ extends Node2D
 
 @onready var dragon: Dragon = $Dragon
 
+
+func _ready() -> void:
+	randomize()
+
 func _on_add_pressed() -> void:
 	dragon.add_segment()
 

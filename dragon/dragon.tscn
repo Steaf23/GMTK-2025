@@ -1,14 +1,48 @@
-[gd_scene load_steps=5 format=3 uid="uid://d8o1vugqmmxy"]
+[gd_scene load_steps=11 format=3 uid="uid://d8o1vugqmmxy"]
 
 [ext_resource type="Script" uid="uid://cc6d6md11c45e" path="res://dragon/dragon.gd" id="1_lmeim"]
 [ext_resource type="Script" uid="uid://c6f6pfor75aa3" path="res://dragon/head.gd" id="2_irmc6"]
+[ext_resource type="Texture2D" uid="uid://bxk08gah0jqp7" path="res://dragon/dragon_sprites/dragon_head1.png" id="3_irmc6"]
+[ext_resource type="Texture2D" uid="uid://ikd2nufxf437" path="res://dragon/dragon_sprites/dragon_head2.png" id="3_qw8pt"]
+[ext_resource type="Texture2D" uid="uid://btj1ahqh0clsk" path="res://dragon/dragon_sprites/dragon_head3.png" id="4_g2ok4"]
+[ext_resource type="Texture2D" uid="uid://d2taq07w2075w" path="res://dragon/dragon_sprites/dragon_head4.png" id="5_r8lk1"]
+[ext_resource type="Texture2D" uid="uid://bk72j60ba1c7u" path="res://dragon/dragon_sprites/dragon_head5.png" id="6_bu73e"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tlwt5"]
 radius = 7.0
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_5ebm8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_qw8pt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_g2ok4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_r8lk1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bu73e")
+}],
+"loop": false,
+"name": &"bite",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_irmc6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Dragon" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_lmeim")
 
 [node name="Head" type="CharacterBody2D" parent="."]
@@ -22,6 +56,7 @@ shape = SubResource("CircleShape2D_aqk2v")
 [node name="Camera2D" type="Camera2D" parent="Head"]
 
 [node name="HeadPivot" type="Node2D" parent="Head"]
+rotation = 0.00399432
 
 [node name="Mouth" type="Area2D" parent="Head/HeadPivot"]
 position = Vector2(10, 0)
@@ -31,11 +66,22 @@ collision_mask = 7
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/HeadPivot/Mouth"]
 shape = SubResource("CircleShape2D_tlwt5")
 
+[node name="Sprite" type="AnimatedSprite2D" parent="Head/HeadPivot"]
+unique_name_in_owner = true
+position = Vector2(5, 0)
+sprite_frames = SubResource("SpriteFrames_5ebm8")
+animation = &"bite"
+autoplay = "default"
+flip_h = true
+
 [node name="Area2D" type="Area2D" parent="Head"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/Area2D"]
 
 [node name="Body" type="Node2D" parent="."]
 
+[node name="Line2D" type="Line2D" parent="."]
+
 [connection signal="area_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_area_entered"]
 [connection signal="body_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_body_entered"]
+[connection signal="animation_finished" from="Head/HeadPivot/Sprite" to="Head" method="_on_sprite_animation_finished"]

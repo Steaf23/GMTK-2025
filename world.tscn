@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bupsu2mvx1scy"]
+[gd_scene load_steps=6 format=3 uid="uid://bupsu2mvx1scy"]
 
 [ext_resource type="PackedScene" uid="uid://d8o1vugqmmxy" path="res://dragon/dragon.tscn" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ltdh8p4c31as" path="res://world.gd" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://b7coq10u52ija" path="res://warrior.tscn" id="3_tlwt5"]
+[ext_resource type="AudioStream" uid="uid://r7gpjshk6a70" path="res://sound/game_music.wav" id="4_aqk2v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7yv"]
 size = Vector2(71.8284, 24.543)
@@ -98,6 +99,10 @@ position = Vector2(100, -51)
 
 [node name="Warrior7" parent="." instance=ExtResource("3_tlwt5")]
 position = Vector2(18, 201)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_aqk2v")
+autoplay = true
 
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/Add" to="." method="_on_add_pressed"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/Remove" to="." method="_on_remove_pressed"]

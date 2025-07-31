@@ -12,7 +12,7 @@ var eating_count = 0
 var strangle_points: PackedVector2Array = []
 
 func _ready() -> void:
-	for i in 50:
+	for i in 3:
 		add_segment()
 		
 
@@ -41,7 +41,11 @@ func add_segment() -> void:
 	segment.global_position = leading.global_position
 	segment.add_collision_exception_with(leading)
 	leading.add_collision_exception_with(segment)
+	if leading is Segment:
+		leading.is_last = false
+	
 	$Body.add_child(segment)
+	segment.is_last = true
 
 
 func remove_segment() -> void:
@@ -49,6 +53,9 @@ func remove_segment() -> void:
 		return
 
 	var b = $Body.get_children().pop_back()
+	
+	if $Body.get_child(-1) is Segment:
+		$Body.get_child(-1).is_last = true
 	b.queue_free()
 
 
@@ -63,6 +70,7 @@ func consumable_entered_mouth(consumable: Consumable) -> void:
 	head.is_eating = true
 	speed_mult = 0.6
 	eating_count += 1
+	head.bite()
 	await get_tree().create_timer(0.5).timeout
 
 	eating_count = max(eating_count - 1, 0)
@@ -77,6 +85,12 @@ func consumable_entered_mouth(consumable: Consumable) -> void:
 
 
 func _draw() -> void:
+	#for b in segments():
+		#draw_circle(to_local(b.global_position), 10, Color.html("#e8c7b3"))
+		#
+	#for b in segments():
+		#draw_circle(to_local(b.global_position) + Vector2(0, 5), 10, Color.html("#cf0000"))
+	#
 	if strangle_points.is_empty():
 		return
 	
@@ -127,3 +141,9 @@ func get_captured_consumables() -> void:
 
 	for r in results:
 		print("Found body: ", r.collider)
+
+
+func segments() -> Array[Segment]:
+	var arr: Array[Segment]
+	arr.assign($Body.get_children())
+	return arr

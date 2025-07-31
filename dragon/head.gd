@@ -17,8 +17,22 @@ func _physics_process(delta: float) -> void:
 	velocity = cur_dir * speed
 	move_and_slide()
 	queue_redraw()
-	$HeadPivot.rotation = velocity.angle()
 	
+	var angle = velocity.angle()
+	if angle < -PI/2 or angle > PI/2:
+		%Sprite.scale.y = -1
+	else:
+		%Sprite.scale.y = 1
+		
+	$HeadPivot.rotation = velocity.angle()
 
-func _draw() -> void:
-	draw_line(Vector2.ZERO, cur_dir * 20, Color.RED, 3)
+
+func bite() -> void:
+	%Sprite.play("bite")
+
+
+func _on_sprite_animation_finished() -> void:
+	print(%Sprite.animation)
+	if %Sprite.animation == "bite":
+		%Sprite.play("default")
+		
