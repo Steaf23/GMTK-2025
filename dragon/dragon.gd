@@ -2,7 +2,7 @@ class_name Dragon
 extends Node2D
 
 @export var follow_distance: int = 15
-@export var speed: int = 150
+@export var speed: int = 50
 @export var speed_mult: float = 1.0
 
 @onready var head: CharacterBody2D = $Head
@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 	var leading: Node2D = head
 	var idx = 0
 	for b in segments():
-		if not b.update_position(leading, follow_distance, cur_speed, delta):
+		if not b.update_position(leading, follow_distance, cur_speed, delta, $Body.get_child_count() - idx):
 			break
 		
 		leading = b
