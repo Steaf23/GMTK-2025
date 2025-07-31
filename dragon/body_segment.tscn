@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bbm74415xgith"]
+[gd_scene load_steps=8 format=3 uid="uid://bbm74415xgith"]
 
 [ext_resource type="Script" uid="uid://b5nvpu2dfv8x" path="res://dragon/body_segment.gd" id="1_ll60o"]
 [ext_resource type="Texture2D" uid="uid://b1xw0wbsbjyyc" path="res://dragon/dragon_sprites/dragon_torso_arms.png" id="2_rfv6h"]
@@ -34,6 +34,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_xyygd"]
+radius = 8.0
+
 [node name="BodySegment" type="CharacterBody2D" groups=["segment"]]
 collision_mask = 2
 motion_mode = 1
@@ -45,3 +48,11 @@ shape = SubResource("CircleShape2D_aqk2v")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7frwa")
 flip_h = true
+
+[node name="SegmentDetect" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SegmentDetect"]
+shape = SubResource("CircleShape2D_xyygd")
+
+[connection signal="body_exited" from="SegmentDetect" to="." method="_on_segment_detect_body_exited"]

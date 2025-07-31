@@ -32,7 +32,6 @@ func bite() -> void:
 
 
 func _on_sprite_animation_finished() -> void:
-	print(%Sprite.animation)
 	if %Sprite.animation == "bite":
 		%Sprite.play("default")
 		

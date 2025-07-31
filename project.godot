@@ -27,6 +27,10 @@ window/stretch/scale=2.0
 consumable=""
 segment=""
 
+[layer_names]
+
+2d_physics/layer_1="dragon"
+
 [physics]
 
 2d/default_gravity=0.0

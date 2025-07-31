@@ -2,6 +2,8 @@ class_name Segment
 extends CharacterBody2D
 
 
+signal body_collision_exited()
+
 @onready var leading: Node2D = null
 
 @onready var is_last: bool = false:
@@ -61,3 +63,10 @@ func _process(delta: float) -> void:
 		$Sprite.scale.y = 1
 		
 	$Sprite.rotation = body_angle
+
+
+func _on_segment_detect_body_exited(body: Node2D) -> void:
+	if body == self:
+		return
+		
+	body_collision_exited.emit(body)

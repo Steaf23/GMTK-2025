@@ -42,8 +42,9 @@ animations = [{
 }]
 
 [node name="Dragon" type="Node2D"]
-y_sort_enabled = true
 script = ExtResource("1_lmeim")
+
+[node name="Body" type="Node2D" parent="."]
 
 [node name="Head" type="CharacterBody2D" parent="."]
 collision_mask = 2
@@ -77,8 +78,6 @@ flip_h = true
 [node name="Area2D" type="Area2D" parent="Head"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/Area2D"]
-
-[node name="Body" type="Node2D" parent="."]
 
 [node name="Line2D" type="Line2D" parent="."]
 
