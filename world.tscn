@@ -51,7 +51,8 @@ collision_layer = 7
 collision_mask = 7
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls"]
-polygon = PackedVector2Array(-287, -180, -90, -285, 206, -264, 239, -118, 186, 24, 140, 91, -106, 95, -254, 63, -287, -180, -348, -169, -295, -59, -316, 59, -303, 141, 140, 204, 219, 143, 332, -3, 315, -198, 266, -340, 38, -363, -143, -363, -289, -299, -348, -169)
+position = Vector2(50, 0)
+polygon = PackedVector2Array(-373, -178, -279, -340, 627, -321, 634, 261, -379, 100, -373, -178, -468, -166, -529, 180, 692, 307, 734, -369, -421, -387, -468, -166)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

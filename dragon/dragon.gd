@@ -9,8 +9,10 @@ extends Node2D
 
 var eating_count = 0
 
+var strangle_points: PackedVector2Array = []
+
 func _ready() -> void:
-	for i in 10:
+	for i in 50:
 		add_segment()
 		
 
@@ -22,18 +24,9 @@ func _physics_process(delta: float) -> void:
 	var leading: Node2D = head
 	var idx = 0
 	for b in $Body.get_children():
-		var target = leading.global_position.direction_to(b.global_position) * follow_distance + leading.global_position
-		
-		var direction = target - b.global_position
-		var distance = direction.length()
-		
-		if distance < 1.0:
+		if not b.update_position(leading, follow_distance, cur_speed, delta):
 			break
-	
-		var target_velocity = b.global_position.direction_to(target) * cur_speed
-		b.velocity = b.velocity.lerp(target_velocity, 0.4)
-		#b.velocity = lerp(old_velocity, b.velocity, 0.1)
-		b.move_and_slide()
+		
 		leading = b
 		idx += 1
 		
@@ -60,9 +53,13 @@ func remove_segment() -> void:
 
 
 func _on_mouth_area_entered(area: Area2D) -> void:
-	if not area.is_in_group(&"consumable") and area is not Consumable:
+	if area is Consumable:
+		consumable_entered_mouth(area)
 		return
-	
+
+
+func consumable_entered_mouth(consumable: Consumable) -> void:
+
 	head.is_eating = true
 	speed_mult = 0.6
 	eating_count += 1
@@ -73,6 +70,60 @@ func _on_mouth_area_entered(area: Area2D) -> void:
 	if not head.is_eating:
 		speed_mult = 1.0
 		
-	if area:
-		area.owner.queue_free()
+	if consumable:
+		consumable.owner.queue_free()
 	add_segment()
+
+
+
+func _draw() -> void:
+	if strangle_points.is_empty():
+		return
+	
+	var c = Color.DODGER_BLUE
+	c.a = 0.5
+	draw_colored_polygon(strangle_points, c)
+
+
+func _on_mouth_body_entered(body: Node2D) -> void:
+	if not body.is_in_group("segment"):
+		return
+	
+	if not body.leading:
+		return
+	var entry_angle = body.global_position.direction_to(body.leading.global_position).angle_to(body.global_position.direction_to(head.global_position))
+	print(rad_to_deg(entry_angle))
+	if entry_angle < PI/2 and entry_angle > -PI/2:
+		return
+	
+	strangle_points.clear()
+	strangle_points.append(to_local(head.global_position))
+	for s in $Body.get_children():
+		if s is not Node2D:
+			continue
+		strangle_points.append(to_local(s.global_position))
+		
+		if body == s:
+			break
+	
+	get_captured_consumables()
+	queue_redraw()
+
+
+func get_captured_consumables() -> void:
+	var space_state = get_world_2d().direct_space_state
+
+	# Use Convex or Concave shape depending on polygon type
+	var poly_shape = ConvexPolygonShape2D.new()
+	poly_shape.points = strangle_points
+
+	var shape_params = PhysicsShapeQueryParameters2D.new()
+	shape_params.shape = poly_shape
+	shape_params.transform = Transform2D(0, Vector2.ZERO) # Position in world
+	shape_params.collision_mask = 8
+
+	# Query physics space for bodies intersecting this polygon
+	var results = space_state.intersect_shape(shape_params, 32)
+
+	for r in results:
+		print("Found body: ", r.collider)

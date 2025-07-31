@@ -25,10 +25,17 @@ shape = SubResource("CircleShape2D_aqk2v")
 
 [node name="Mouth" type="Area2D" parent="Head/HeadPivot"]
 position = Vector2(10, 0)
+collision_layer = 7
+collision_mask = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/HeadPivot/Mouth"]
 shape = SubResource("CircleShape2D_tlwt5")
 
+[node name="Area2D" type="Area2D" parent="Head"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/Area2D"]
+
 [node name="Body" type="Node2D" parent="."]
 
 [connection signal="area_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_area_entered"]
+[connection signal="body_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_body_entered"]

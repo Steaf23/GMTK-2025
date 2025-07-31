@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b7coq10u52ija"]
+[gd_scene load_steps=5 format=3 uid="uid://b7coq10u52ija"]
 
 [ext_resource type="Script" uid="uid://cc28b3oqnrpw0" path="res://consume_area.gd" id="1_bgok4"]
+[ext_resource type="Script" uid="uid://dgw8gislf8qdr" path="res://warrior.gd" id="1_pkbmn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvau4"]
 
@@ -8,7 +9,10 @@
 radius = 18.0278
 
 [node name="Warrior" type="CharacterBody2D"]
+collision_layer = 15
+collision_mask = 15
 motion_mode = 1
+script = ExtResource("1_pkbmn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_dvau4")
