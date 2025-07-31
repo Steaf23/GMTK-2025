@@ -1,3 +1,34 @@
-[gd_scene format=3 uid="uid://celbx7wncsxvs"]
+[gd_scene load_steps=5 format=3 uid="uid://d8o1vugqmmxy"]
+
+[ext_resource type="Script" uid="uid://cc6d6md11c45e" path="res://dragon/dragon.gd" id="1_lmeim"]
+[ext_resource type="Script" uid="uid://c6f6pfor75aa3" path="res://dragon/head.gd" id="2_irmc6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tlwt5"]
+radius = 7.0
 
 [node name="Dragon" type="Node2D"]
+script = ExtResource("1_lmeim")
+
+[node name="Head" type="CharacterBody2D" parent="."]
+collision_mask = 2
+motion_mode = 1
+script = ExtResource("2_irmc6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+shape = SubResource("CircleShape2D_aqk2v")
+
+[node name="Camera2D" type="Camera2D" parent="Head"]
+
+[node name="HeadPivot" type="Node2D" parent="Head"]
+
+[node name="Mouth" type="Area2D" parent="Head/HeadPivot"]
+position = Vector2(10, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/HeadPivot/Mouth"]
+shape = SubResource("CircleShape2D_tlwt5")
+
+[node name="Body" type="Node2D" parent="."]
+
+[connection signal="area_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_area_entered"]

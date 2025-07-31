@@ -1,29 +1,16 @@
 [gd_scene load_steps=5 format=3 uid="uid://bupsu2mvx1scy"]
 
-[ext_resource type="Script" uid="uid://cc6d6md11c45e" path="res://dragon/dragon.gd" id="1_fj7yv"]
-[ext_resource type="Script" uid="uid://c6f6pfor75aa3" path="res://dragon/head.gd" id="2_tlwt5"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://d8o1vugqmmxy" path="res://dragon/dragon.tscn" id="1_fj7yv"]
+[ext_resource type="Script" uid="uid://ltdh8p4c31as" path="res://world.gd" id="1_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://b7coq10u52ija" path="res://warrior.tscn" id="3_tlwt5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7yv"]
 size = Vector2(71.8284, 24.543)
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_tlwt5")
 
-[node name="Dragon" type="Node2D" parent="."]
-script = ExtResource("1_fj7yv")
-
-[node name="Head" type="CharacterBody2D" parent="Dragon"]
-collision_mask = 2
-motion_mode = 1
-script = ExtResource("2_tlwt5")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Dragon/Head"]
-shape = SubResource("CircleShape2D_aqk2v")
-
-[node name="Camera2D" type="Camera2D" parent="Dragon/Head"]
-
-[node name="Body" type="Node2D" parent="Dragon"]
+[node name="Dragon" parent="." instance=ExtResource("1_fj7yv")]
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="."]
 position = Vector2(186, 76)
@@ -55,6 +42,17 @@ collision_mask = 3
 position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_fj7yv")
 
+[node name="Warrior" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(161, 169)
+
+[node name="Walls" type="StaticBody2D" parent="."]
+position = Vector2(161, 169)
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls"]
+polygon = PackedVector2Array(-287, -180, -90, -285, 206, -264, 239, -118, 186, 24, 140, 91, -106, 95, -254, 63, -287, -180, -348, -169, -295, -59, -316, 59, -303, 141, 140, 204, 219, 143, 332, -3, 315, -198, 266, -340, 38, -363, -143, -363, -289, -299, -348, -169)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
@@ -79,5 +77,26 @@ text = "Add"
 layout_mode = 2
 text = "Remove"
 
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Add" to="Dragon" method="_on_add_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Remove" to="Dragon" method="_on_remove_pressed"]
+[node name="Warrior8" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(307, 191)
+
+[node name="Warrior2" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(229, 233)
+
+[node name="Warrior3" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(-46, 178)
+
+[node name="Warrior4" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(-13, 210)
+
+[node name="Warrior5" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(318, -51)
+
+[node name="Warrior6" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(100, -51)
+
+[node name="Warrior7" parent="." instance=ExtResource("3_tlwt5")]
+position = Vector2(18, 201)
+
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/Add" to="." method="_on_add_pressed"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/Remove" to="." method="_on_remove_pressed"]
