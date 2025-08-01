@@ -1,6 +1,8 @@
 class_name Dragon
 extends Node2D
 
+signal player_died()
+
 @export var follow_distance: int = 15
 @export var speed: int = 150
 @export var speed_mult: float = 1.0
@@ -16,13 +18,13 @@ var strangle_points: PackedVector2Array = []
 # array of arrays, keeping track of segments that are part of a possible constriction.
 var constriction_windows: ConstrictionManager = ConstrictionManager.new()
 
+
 func _ready() -> void:
 	Global.dragon = self
 	
 	for i in 5:
 		add_segment()
 	
-		
 
 func _physics_process(delta: float) -> void:
 	
@@ -37,6 +39,7 @@ func _physics_process(delta: float) -> void:
 		
 		leading = b
 		idx += 1
+	
 	
 func add_segment() -> void:
 	var segment = preload("res://dragon/body_segment.tscn").instantiate()
@@ -65,6 +68,9 @@ func remove_segment() -> void:
 	if $Body.get_child(1) is Segment:
 		$Body.get_child(1).is_last = true
 	b.queue_free()
+	
+	if $Body.get_child_count() <= 2:
+		player_died.emit()
 
 
 func _on_mouth_area_entered(area: Area2D) -> void:
@@ -249,5 +255,4 @@ func take_damage(part: Node2D) -> void:
 		
 	remove_segment()
 	$InvincibleTimer.start()
-	
 	

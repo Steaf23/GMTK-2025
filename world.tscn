@@ -68,6 +68,50 @@ polygon = PackedVector2Array(68, -187, 157, -133, 95, -19, 3, -76)
 position = Vector2(50, 0)
 polygon = PackedVector2Array(-373, -178, -279, -340, 627, -321, 634, 261, -379, 100, -373, -178, -468, -166, -529, 180, 692, 307, 734, -369, -421, -387, -468, -166)
 
+[node name="Gameover" type="CanvasLayer" parent="."]
+process_mode = 2
+layer = 5
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="Gameover"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.372549)
+
+[node name="CenterContainer" type="CenterContainer" parent="Gameover"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Gameover/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Gameover/CenterContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Label2" type="Label" parent="Gameover/CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Game Over"
+
+[node name="FinalScore" type="Label" parent="Gameover/CenterContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Score: 0"
+
+[node name="Restart" type="Button" parent="Gameover/CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
@@ -145,5 +189,6 @@ position = Vector2(18, 201)
 [node name="Warrior" parent="Enemies" instance=ExtResource("3_tlwt5")]
 position = Vector2(161, 169)
 
+[connection signal="pressed" from="Gameover/CenterContainer/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/Add" to="." method="_on_add_pressed"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/Remove" to="." method="_on_remove_pressed"]
