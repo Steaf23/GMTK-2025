@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://b7coq10u52ija"]
+[gd_scene load_steps=9 format=3 uid="uid://b7coq10u52ija"]
 
 [ext_resource type="Script" uid="uid://cc28b3oqnrpw0" path="res://consume_area.gd" id="1_bgok4"]
 [ext_resource type="Script" uid="uid://dgw8gislf8qdr" path="res://warrior/warrior.gd" id="1_pkbmn"]
-[ext_resource type="Script" uid="uid://doyvlumnh0xjb" path="res://warrior/warrior_movement.gd" id="3_373gj"]
+[ext_resource type="PackedScene" uid="uid://cr3ov5c5mrfn4" path="res://warrior/warrior_attack.tscn" id="2_wxviw"]
+[ext_resource type="PackedScene" uid="uid://b0yqolnher2n3" path="res://warrior/warrior_movement.tscn" id="3_6mo0w"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvau4"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_gnuc2"]
+radius = 12.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dvau4"]
 radius = 18.0278
@@ -25,8 +27,16 @@ motion_mode = 1
 script = ExtResource("1_pkbmn")
 max_health = 3
 
+[node name="Components" type="Node2D" parent="."]
+
+[node name="WarriorAttack" parent="Components" node_paths=PackedStringArray("warrior") instance=ExtResource("2_wxviw")]
+warrior = NodePath("../..")
+
+[node name="WarriorMovement" parent="Components" node_paths=PackedStringArray("warrior") instance=ExtResource("3_6mo0w")]
+warrior = NodePath("../..")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_dvau4")
+shape = SubResource("CircleShape2D_gnuc2")
 
 [node name="ConsumeArea" type="Area2D" parent="." groups=["consumable"]]
 script = ExtResource("1_bgok4")
@@ -89,9 +99,5 @@ max_value = 5.0
 step = 1.0
 value = 1.0
 show_percentage = false
-
-[node name="WarriorMovement" type="Node" parent="." node_paths=PackedStringArray("warrior")]
-script = ExtResource("3_373gj")
-warrior = NodePath("..")
 
 [connection signal="timeout" from="ConstrictTimer" to="." method="_on_constrict_timer_timeout"]

@@ -1,3 +1,4 @@
+class_name DragonHead
 extends CharacterBody2D
 
 var speed: int = 0

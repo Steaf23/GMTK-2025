@@ -13,8 +13,9 @@ func _physics_process(delta: float) -> void:
 	if not Global.dragon:
 		return
 	
-	var segment = Global.nearest_segment_or_head(warrior.global_position)
-	var desired_position = segment.global_position + (segment.global_position.direction_to(warrior.global_position) * 40)
+	if not warrior.dragon_segment:
+		return
+	var desired_position = warrior.dragon_segment.global_position + (warrior.dragon_segment.global_position.direction_to(warrior.global_position) * 40)
 	direction = warrior.global_position.direction_to(desired_position)
 	warrior.velocity = direction * speed
 	warrior.move_and_slide()

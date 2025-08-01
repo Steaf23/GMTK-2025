@@ -7,6 +7,8 @@ signal killed()
 @export var can_be_eaten: bool = false
 @export var can_be_damaged: bool = true
 
+@onready var dragon_segment: Node2D = null
+
 @onready var health: int = max_health:
 	set(value):
 		health = value
@@ -43,6 +45,11 @@ func is_stuck() -> bool:
 	
 	return true
 		
+		
+
+func _physics_process(delta: float) -> void:
+	dragon_segment = Global.nearest_segment_or_head(global_position)
+
 
 func _on_constrict_timer_timeout() -> void:
 	if not is_stuck():

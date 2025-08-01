@@ -94,6 +94,10 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 
+[node name="InvincibleTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="area_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_area_entered"]
 [connection signal="body_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_body_entered"]
 [connection signal="animation_finished" from="Head/HeadPivot/Sprite" to="Head" method="_on_sprite_animation_finished"]

@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var dragon: Dragon = $Dragon
 
+@onready var score: Label = %Score
+
 
 func _ready() -> void:
 	randomize()
@@ -24,6 +26,8 @@ func _process(delta: float) -> void:
 	#for w in dragon.constriction_windows.windows:
 		#text += "Diff: %s, Start: %s, End: %s\n" % [w.start_segment - w.end_segment, w.start_segment, w.end_segment]
 	#$CanvasLayer/Label.text = text
+	
+	score.text = "Score: %s" % [dragon.segments().size()]
 	pass
 
 

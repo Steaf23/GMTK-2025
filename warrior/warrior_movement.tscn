@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0yqolnher2n3"]
+
+[ext_resource type="Script" uid="uid://doyvlumnh0xjb" path="res://warrior/warrior_movement.gd" id="1_77pcj"]
+
+[node name="WarriorMovement" type="Node" node_paths=PackedStringArray("warrior")]
+script = ExtResource("1_77pcj")
+warrior = NodePath("")

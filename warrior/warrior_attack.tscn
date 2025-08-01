@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3 uid="uid://cr3ov5c5mrfn4"]
+
+[ext_resource type="Script" uid="uid://ddqiggr5g4f54" path="res://warrior/warrior_attack.gd" id="1_c6n77"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gnuc2"]
+radius = 6.0
+height = 40.0
+
+[sub_resource type="Animation" id="Animation_gnuc2"]
+resource_name = "attack"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_c6n77"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wxviw"]
+_data = {
+&"RESET": SubResource("Animation_c6n77"),
+&"attack": SubResource("Animation_gnuc2")
+}
+
+[node name="WarriorAttack" type="Node2D"]
+script = ExtResource("1_c6n77")
+attack_distance = 30
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(29, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_gnuc2")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_wxviw")
+}
+
+[node name="Cooldown" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

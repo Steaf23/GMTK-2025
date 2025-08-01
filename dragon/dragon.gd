@@ -17,7 +17,7 @@ var constriction_windows: ConstrictionManager = ConstrictionManager.new()
 func _ready() -> void:
 	Global.dragon = self
 	
-	for i in 30:
+	for i in 5:
 		add_segment()
 	
 		
@@ -227,3 +227,13 @@ func _on_segment_exited_segment(body: Node2D, origin_body: Segment) -> void:
 	#
 	#if dist < start_segment_body.global_position.distance_to(body.global_position):
 		#print("WINDOW at start ", start_segment_body.get_index(), " to loose!")
+
+
+func take_damage(part: Node2D) -> void:
+	if not $InvincibleTimer.is_stopped():
+		return
+		
+	remove_segment()
+	$InvincibleTimer.start()
+	
+	
