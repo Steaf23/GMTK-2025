@@ -71,13 +71,14 @@ func _process(delta: float) -> void:
 
 
 func _on_segment_detect_body_exited(body: Node2D) -> void:
-	if body == self:
+	if body == self || body is not Segment:
 		return
 		
 	body_collision_exited.emit(body)
 
 
-func _draw() -> void:
-	draw_string(ThemeDB.fallback_font, Vector2.ZERO + Vector2(-5, 5), str(idx), HORIZONTAL_ALIGNMENT_CENTER, -1, 16)
+## DEBUG DRAWING
+#func _draw() -> void:
+	#draw_string(ThemeDB.fallback_font, Vector2.ZERO + Vector2(-5, 5), str(idx), HORIZONTAL_ALIGNMENT_CENTER, -1, 16)
 	
 	

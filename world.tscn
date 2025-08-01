@@ -43,19 +43,38 @@ collision_mask = 3
 position = Vector2(1, 2)
 shape = SubResource("RectangleShape2D_fj7yv")
 
-[node name="Warrior" parent="." instance=ExtResource("3_tlwt5")]
-position = Vector2(161, 169)
-
 [node name="Walls" type="StaticBody2D" parent="."]
 position = Vector2(161, 169)
 collision_layer = 7
 collision_mask = 7
+
+[node name="Polygon2D" type="Polygon2D" parent="Walls"]
+color = Color(0.197937, 0.197937, 0.197937, 1)
+polygon = PackedVector2Array(-371, -384, 781, -369, 737, 300, -472, 176, -372, -377, -323, -178, -330, 100, -330, 100, 684, 261, 677, -321, -229, -340, -323, -178)
+
+[node name="Polygon2D4" type="Polygon2D" parent="Walls"]
+color = Color(0.197937, 0.197937, 0.197937, 1)
+polygon = PackedVector2Array(-70, -99, -70, -123, -142, -123, -142, -99)
+
+[node name="Polygon2D3" type="Polygon2D" parent="Walls"]
+color = Color(0.197937, 0.197937, 0.197937, 1)
+polygon = PackedVector2Array(-24, -82, -13, -59, -78, -29, -88, -52)
+
+[node name="Polygon2D2" type="Polygon2D" parent="Walls"]
+color = Color(0.197937, 0.197937, 0.197937, 1)
+polygon = PackedVector2Array(68, -187, 157, -133, 95, -19, 3, -76)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Walls"]
 position = Vector2(50, 0)
 polygon = PackedVector2Array(-373, -178, -279, -340, 627, -321, 634, 261, -379, 100, -373, -178, -468, -166, -529, 180, 692, 307, 734, -369, -421, -387, -468, -166)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
+offset_right = 40.0
+offset_bottom = 23.0
+text = "WTF"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
 anchors_preset = 7
@@ -79,30 +98,35 @@ text = "Add"
 layout_mode = 2
 text = "Remove"
 
-[node name="Warrior8" parent="." instance=ExtResource("3_tlwt5")]
-position = Vector2(307, 191)
-
-[node name="Warrior2" parent="." instance=ExtResource("3_tlwt5")]
-position = Vector2(229, 233)
-
-[node name="Warrior3" parent="." instance=ExtResource("3_tlwt5")]
-position = Vector2(-46, 178)
-
-[node name="Warrior4" parent="." instance=ExtResource("3_tlwt5")]
-position = Vector2(-13, 210)
-
-[node name="Warrior5" parent="." instance=ExtResource("3_tlwt5")]
-position = Vector2(318, -51)
-
-[node name="Warrior6" parent="." instance=ExtResource("3_tlwt5")]
-position = Vector2(100, -51)
-
-[node name="Warrior7" parent="." instance=ExtResource("3_tlwt5")]
-position = Vector2(18, 201)
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_aqk2v")
 autoplay = true
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Warrior8" parent="Enemies" instance=ExtResource("3_tlwt5")]
+position = Vector2(307, 191)
+
+[node name="Warrior2" parent="Enemies" instance=ExtResource("3_tlwt5")]
+position = Vector2(229, 233)
+
+[node name="Warrior3" parent="Enemies" instance=ExtResource("3_tlwt5")]
+position = Vector2(-46, 178)
+
+[node name="Warrior4" parent="Enemies" instance=ExtResource("3_tlwt5")]
+position = Vector2(-13, 210)
+
+[node name="Warrior5" parent="Enemies" instance=ExtResource("3_tlwt5")]
+position = Vector2(318, -51)
+
+[node name="Warrior6" parent="Enemies" instance=ExtResource("3_tlwt5")]
+position = Vector2(100, -51)
+
+[node name="Warrior7" parent="Enemies" instance=ExtResource("3_tlwt5")]
+position = Vector2(18, 201)
+
+[node name="Warrior" parent="Enemies" instance=ExtResource("3_tlwt5")]
+position = Vector2(161, 169)
 
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/Add" to="." method="_on_add_pressed"]
 [connection signal="pressed" from="CanvasLayer/HBoxContainer/Remove" to="." method="_on_remove_pressed"]

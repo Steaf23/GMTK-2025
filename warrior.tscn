@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b7coq10u52ija"]
+[gd_scene load_steps=7 format=3 uid="uid://b7coq10u52ija"]
 
 [ext_resource type="Script" uid="uid://cc28b3oqnrpw0" path="res://consume_area.gd" id="1_bgok4"]
 [ext_resource type="Script" uid="uid://dgw8gislf8qdr" path="res://warrior.gd" id="1_pkbmn"]
@@ -8,8 +8,17 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_dvau4"]
 radius = 18.0278
 
+[sub_resource type="Gradient" id="Gradient_pkbmn"]
+offsets = PackedFloat32Array(0.246753, 0.311688)
+colors = PackedColorArray(0.133333, 0.360784, 0.32549, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_373gj"]
+gradient = SubResource("Gradient_pkbmn")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Warrior" type="CharacterBody2D"]
-collision_layer = 15
+collision_layer = 14
 collision_mask = 15
 motion_mode = 1
 script = ExtResource("1_pkbmn")
@@ -22,3 +31,51 @@ script = ExtResource("1_bgok4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ConsumeArea"]
 shape = SubResource("CircleShape2D_dvau4")
+
+[node name="Rays" type="Node2D" parent="."]
+
+[node name="RayCast2D3" type="RayCast2D" parent="Rays"]
+rotation = 1.57069
+target_position = Vector2(0, 30)
+collision_mask = 15
+
+[node name="RayCast2D4" type="RayCast2D" parent="Rays"]
+rotation = 1.57069
+target_position = Vector2(0, -30)
+collision_mask = 15
+
+[node name="RayCast2D" type="RayCast2D" parent="Rays"]
+target_position = Vector2(0, 30)
+collision_mask = 15
+
+[node name="RayCast2D2" type="RayCast2D" parent="Rays"]
+target_position = Vector2(0, -30)
+collision_mask = 15
+
+[node name="RayCast2D5" type="RayCast2D" parent="Rays"]
+rotation = 0.785398
+target_position = Vector2(0, 30)
+collision_mask = 15
+
+[node name="RayCast2D6" type="RayCast2D" parent="Rays"]
+rotation = 0.785398
+target_position = Vector2(0, -30)
+collision_mask = 15
+
+[node name="RayCast2D7" type="RayCast2D" parent="Rays"]
+rotation = -0.785398
+target_position = Vector2(0, 30)
+collision_mask = 15
+
+[node name="RayCast2D8" type="RayCast2D" parent="Rays"]
+rotation = -0.785398
+target_position = Vector2(0, -30)
+collision_mask = 15
+
+[node name="ConstrictTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_373gj")
+
+[connection signal="timeout" from="ConstrictTimer" to="." method="_on_constrict_timer_timeout"]

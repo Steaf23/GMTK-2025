@@ -2,7 +2,7 @@ class_name Dragon
 extends Node2D
 
 @export var follow_distance: int = 15
-@export var speed: int = 50
+@export var speed: int = 150
 @export var speed_mult: float = 1.0
 
 @onready var head: CharacterBody2D = $Head
@@ -12,11 +12,12 @@ var eating_count = 0
 var strangle_points: PackedVector2Array = []
 
 # array of arrays, keeping track of segments that are part of a possible constriction.
-var constriction_windows: Array[ConstrictionWindow] = []
+var constriction_windows: ConstrictionManager = ConstrictionManager.new()
 
 func _ready() -> void:
-	for i in 3:
+	for i in 30:
 		add_segment()
+	
 		
 
 func _physics_process(delta: float) -> void:
@@ -27,13 +28,12 @@ func _physics_process(delta: float) -> void:
 	var leading: Node2D = head
 	var idx = 0
 	for b in segments():
-		if not b.update_position(leading, follow_distance, cur_speed, delta, $Body.get_child_count() - idx):
+		if not b.update_position(leading, follow_distance, cur_speed, delta, b.get_index()):
 			break
 		
 		leading = b
 		idx += 1
-		
-
+	
 func add_segment() -> void:
 	var segment = preload("res://dragon/body_segment.tscn").instantiate()
 	
@@ -126,24 +126,36 @@ func _on_mouth_body_entered(body: Node2D) -> void:
 			break
 		segment_idx += 1
 	
-	var window = ConstrictionWindow.new()
-	window.power = 0
-	window.start_segment = $Body.get_child_count()
-	window.end_segment = segment_idx 
-	constriction_windows.push_back(window)
+	var window = constriction_windows.add_window($Body.get_child_count(), segment_idx)
 	
-	$Body.get_child(-1).body_collision_exited.connect(func(body): segment_exited_collision($Body.get_child(-1), body, window), ConnectFlags.CONNECT_ONE_SHOT)
+	#$Body.get_child(-1).body_collision_exited.connect(func(body): segment_exited_collision($Body.get_child(-1), body, window), ConnectFlags.CONNECT_ONE_SHOT)
 	
 	#get_captured_consumables()
-	queue_redraw()
+	#queue_redraw()
 
 
-func get_captured_consumables() -> void:
+func update_captured_warriors(window: ConstrictionManager.ConstrictionWindow) -> Array[Dictionary]:
+	if window.start_segment < window.end_segment:
+		#assert(false, "Illegal window")
+		return []
+
+	var points: PackedVector2Array = []
+	var s = window.start_segment
+	while s >= window.end_segment:
+		var segment = $Body.get_child(s) as Segment
+		points.append(segment.global_position)
+		s -= 1
+	
+	points.append(points[0])
+	
+	if points.size() < 3:
+		return []
+		
 	var space_state = get_world_2d().direct_space_state
 
 	# Use Convex or Concave shape depending on polygon type
 	var poly_shape = ConvexPolygonShape2D.new()
-	poly_shape.points = strangle_points
+	poly_shape.points = points
 
 	var shape_params = PhysicsShapeQueryParameters2D.new()
 	shape_params.shape = poly_shape
@@ -154,7 +166,14 @@ func get_captured_consumables() -> void:
 	var results = space_state.intersect_shape(shape_params, 32)
 
 	for r in results:
-		print("Found body: ", r.collider)
+		if r.collider is Warrior:
+			(r.collider as Warrior).captured = true
+	
+	
+	strangle_points = points
+	queue_redraw()
+	
+	return results
 
 
 func segments() -> Array[Segment]:
@@ -165,17 +184,58 @@ func segments() -> Array[Segment]:
 	
 
 # the segment the top segment collided with is the new ending segment of the loop
-func segment_exited_collision(old_start: Node2D, new_end: Node2D, window: ConstrictionWindow) -> void:
+func segment_exited_collision(old_start: Node2D, new_end: Node2D, window: ConstrictionManager.ConstrictionWindow) -> void:
 	if new_end is not Segment:
 		return
 	
-	window.start_segment -= 1
-	$Body.get_child(window.start_segment).body_collision_exited.connect(func(body): segment_exited_collision($Body.get_child(window.start_segment), body, window), ConnectFlags.CONNECT_ONE_SHOT)
-	window.end_segment = new_end.get_index()
-	print(window.start_segment, " ", window.end_segment)
+	var new_start = window.start_segment - 1
+	#$Body.get_child(new_start).body_collision_exited.connect(func(body): segment_exited_collision($Body.get_child(new_start), body, window), ConnectFlags.CONNECT_ONE_SHOT)
+	constriction_windows.edit(window, new_start, new_end.get_index())
 
 
-class ConstrictionWindow:
-	var power = 0
-	var start_segment = 0
-	var end_segment = 0
+func _on_segment_detect_body_exited(body: Node2D) -> void:
+	if body is not Segment:
+		return
+	
+	if not $StartTimer.is_stopped():
+		return
+	
+	var body_idx = body.get_index()
+	
+	# Create window between body_idx and the segment following the head
+	var window = constriction_windows.add_window($Body.get_child_count() - 1, body_idx)
+	
+	var start_segment_body = $Body.get_child(window.start_segment)
+	#TODO: in eliminating double connection we can probably get rid of the left over windows too.
+	start_segment_body.body_collision_exited.connect(_on_segment_exited_segment.bind(start_segment_body), ConnectFlags.CONNECT_ONE_SHOT)
+
+
+func _on_segment_exited_segment(body: Node2D, origin_body: Segment) -> void:
+	var segment = body as Segment
+	
+	var window = constriction_windows.get_window(origin_body.get_index())
+	
+	if window == null:
+		#print("WINDOW WITH START_SEGMENT ", origin_body.get_index(), " DOES NOT EXIST!")
+		return
+	
+	#print("CONTINUE WINDOW s:", window.start_segment, " e: ", window.end_segment)
+	# TODO: add check to remove constriction if the window is no longer constricting.
+	window = constriction_windows.edit(window, window.start_segment - 1, body.get_index())
+	if not window:
+		#print("WINDOW DISCARDED BY MANAGER!")
+		return
+		
+	var start_segment_body = $Body.get_child(window.start_segment)
+	start_segment_body.body_collision_exited.connect(_on_segment_exited_segment.bind(start_segment_body), ConnectFlags.CONNECT_ONE_SHOT)
+	
+	var res = update_captured_warriors(window)
+	if res.is_empty():
+		constriction_windows.remove_window(window)
+	
+	## Invalid window cleanup...
+	#var dist = start_segment_body.global_position.distance_to(body.global_position) 
+	#await get_tree().create_timer(0.5).timeout
+	#
+	#if dist < start_segment_body.global_position.distance_to(body.global_position):
+		#print("WINDOW at start ", start_segment_body.get_index(), " to loose!")
