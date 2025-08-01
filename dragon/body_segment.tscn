@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://bbm74415xgith"]
 
 [ext_resource type="Script" uid="uid://b5nvpu2dfv8x" path="res://dragon/body_segment.gd" id="1_ll60o"]
-[ext_resource type="Texture2D" uid="uid://b1xw0wbsbjyyc" path="res://dragon/dragon_sprites/dragon_torso_arms.png" id="2_rfv6h"]
-[ext_resource type="Texture2D" uid="uid://dnxde8ul5kpl6" path="res://dragon/dragon_sprites/dragon_torso.png" id="3_xyygd"]
-[ext_resource type="Texture2D" uid="uid://clp0l0mbpum1p" path="res://dragon/dragon_sprites/dragon_tail.png" id="4_xyygd"]
+[ext_resource type="Texture2D" uid="uid://du6lf6b13n37l" path="res://dragon/dragon_sprites/dragon_torso_armsf.png" id="2_xyygd"]
+[ext_resource type="Texture2D" uid="uid://wme3d416bn55" path="res://dragon/dragon_sprites/dragon_torsof.png" id="3_7frwa"]
+[ext_resource type="Texture2D" uid="uid://c8gsu3diuycp6" path="res://dragon/dragon_sprites/dragon_tailf.png" id="5_7frwa"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
 
@@ -11,7 +11,7 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_rfv6h")
+"texture": ExtResource("2_xyygd")
 }],
 "loop": true,
 "name": &"arms",
@@ -19,7 +19,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("3_xyygd")
+"texture": ExtResource("3_7frwa")
 }],
 "loop": true,
 "name": &"default",
@@ -27,7 +27,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("4_xyygd")
+"texture": ExtResource("5_7frwa")
 }],
 "loop": true,
 "name": &"tail",
@@ -47,6 +47,7 @@ shape = SubResource("CircleShape2D_aqk2v")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7frwa")
+animation = &"tail"
 flip_h = true
 
 [node name="SegmentDetect" type="Area2D" parent="."]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxk08gah0jqp7"
-path="res://.godot/imported/dragon_head1.png-46229ab9907a0828a75b46eb0703726d.ctex"
+uid="uid://b7ghp35aonbdg"
+path="res://.godot/imported/dragon_head5f.png-b68074dbd6a6661fbed35feb56e4cf2e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://dragon/dragon_sprites/dragon_head1.png"
-dest_files=["res://.godot/imported/dragon_head1.png-46229ab9907a0828a75b46eb0703726d.ctex"]
+source_file="res://dragon/dragon_sprites/dragon_head5f.png"
+dest_files=["res://.godot/imported/dragon_head5f.png-b68074dbd6a6661fbed35feb56e4cf2e.ctex"]
 
 [params]
 

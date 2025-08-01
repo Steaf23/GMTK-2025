@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1xw0wbsbjyyc"
-path="res://.godot/imported/dragon_torso_arms.png-a781fdb1a222d95ca45a0e9040300da6.ctex"
+uid="uid://b5nr5jkso5nqo"
+path="res://.godot/imported/dragon_head3f.png-a9a190c1c7f51b3af344e643658d0663.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://dragon/dragon_sprites/dragon_torso_arms.png"
-dest_files=["res://.godot/imported/dragon_torso_arms.png-a781fdb1a222d95ca45a0e9040300da6.ctex"]
+source_file="res://dragon/dragon_sprites/dragon_head3f.png"
+dest_files=["res://.godot/imported/dragon_head3f.png-a9a190c1c7f51b3af344e643658d0663.ctex"]
 
 [params]
 
