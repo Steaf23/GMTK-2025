@@ -5,6 +5,8 @@ extends Node2D
 @export var speed: int = 150
 @export var speed_mult: float = 1.0
 
+@export var speed_curve: Curve
+
 @onready var head: CharacterBody2D = $Head
 
 var eating_count = 0
@@ -24,7 +26,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	
-	var cur_speed = speed * speed_mult
+	var cur_speed = speed * speed_mult * speed_curve.sample(segments().size())
 
 	$Head.speed = cur_speed
 	var leading: Node2D = head
@@ -60,8 +62,8 @@ func remove_segment() -> void:
 
 	var b = $Body.get_children().pop_front()
 	
-	if $Body.get_child(0) is Segment:
-		$Body.get_child(0).is_last = true
+	if $Body.get_child(1) is Segment:
+		$Body.get_child(1).is_last = true
 	b.queue_free()
 
 
@@ -227,6 +229,18 @@ func _on_segment_exited_segment(body: Node2D, origin_body: Segment) -> void:
 	#
 	#if dist < start_segment_body.global_position.distance_to(body.global_position):
 		#print("WINDOW at start ", start_segment_body.get_index(), " to loose!")
+
+
+func get_speed_multiplier(segment_count: int) -> float:
+	var min_segments = 3
+	var max_segments = 30
+	var max_speed = 1.75
+	var min_speed = 0.75
+
+	segment_count = clamp(segment_count, min_segments, max_segments)
+
+	var t = float(segment_count - min_segments) / (max_segments - min_segments)
+	return lerp(max_speed, min_speed, t)
 
 
 func take_damage(part: Node2D) -> void:

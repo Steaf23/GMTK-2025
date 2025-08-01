@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d8o1vugqmmxy"]
+[gd_scene load_steps=14 format=3 uid="uid://d8o1vugqmmxy"]
 
 [ext_resource type="Script" uid="uid://cc6d6md11c45e" path="res://dragon/dragon.gd" id="1_lmeim"]
 [ext_resource type="Script" uid="uid://c6f6pfor75aa3" path="res://dragon/head.gd" id="2_irmc6"]
@@ -8,6 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://b7ghp35aonbdg" path="res://dragon/dragon_sprites/dragon_head5f.png" id="6_r8lk1"]
 [ext_resource type="Texture2D" uid="uid://3mqjc35frbdt" path="res://dragon/dragon_sprites/dragon_head6f.png" id="7_g2ok4"]
 [ext_resource type="Texture2D" uid="uid://dy3p8cyl3371q" path="res://dragon/dragon_sprites/dragon_head1f.png" id="7_qw8pt"]
+
+[sub_resource type="Curve" id="Curve_g2ok4"]
+_limits = [0.0, 1.75, 0.0, 40.0]
+_data = [Vector2(2.85714, 1.375), 0.0, -0.0234838, 0, 0, Vector2(25.7143, 1.125), -0.017493, -0.017493, 0, 0, Vector2(40, 0.875), -0.0150176, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+metadata/_snap_count = 14
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
 
@@ -50,6 +57,7 @@ radius = 8.0
 
 [node name="Dragon" type="Node2D"]
 script = ExtResource("1_lmeim")
+speed_curve = SubResource("Curve_g2ok4")
 
 [node name="Body" type="Node2D" parent="."]
 
