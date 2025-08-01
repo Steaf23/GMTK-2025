@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7coq10u52ija"]
+[gd_scene load_steps=8 format=3 uid="uid://b7coq10u52ija"]
 
 [ext_resource type="Script" uid="uid://cc28b3oqnrpw0" path="res://consume_area.gd" id="1_bgok4"]
-[ext_resource type="Script" uid="uid://dgw8gislf8qdr" path="res://warrior.gd" id="1_pkbmn"]
+[ext_resource type="Script" uid="uid://dgw8gislf8qdr" path="res://warrior/warrior.gd" id="1_pkbmn"]
+[ext_resource type="Script" uid="uid://doyvlumnh0xjb" path="res://warrior/warrior_movement.gd" id="3_373gj"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvau4"]
 
@@ -18,10 +19,11 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [node name="Warrior" type="CharacterBody2D"]
-collision_layer = 14
+collision_layer = 15
 collision_mask = 15
 motion_mode = 1
 script = ExtResource("1_pkbmn")
+max_health = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_dvau4")
@@ -77,5 +79,19 @@ one_shot = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("GradientTexture2D_373gj")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -69.0
+offset_top = 16.0
+offset_right = 70.0
+offset_bottom = 35.0
+max_value = 5.0
+step = 1.0
+value = 1.0
+show_percentage = false
+
+[node name="WarriorMovement" type="Node" parent="." node_paths=PackedStringArray("warrior")]
+script = ExtResource("3_373gj")
+warrior = NodePath("..")
 
 [connection signal="timeout" from="ConstrictTimer" to="." method="_on_constrict_timer_timeout"]

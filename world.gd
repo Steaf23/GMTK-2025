@@ -20,10 +20,11 @@ func _on_remove_pressed() -> void:
 
 
 func _process(delta: float) -> void:
-	var text = ""
-	for w in dragon.constriction_windows.windows:
-		text += "Diff: %s, Start: %s, End: %s\n" % [w.start_segment - w.end_segment, w.start_segment, w.end_segment]
-	$CanvasLayer/Label.text = text
+	#var text = ""
+	#for w in dragon.constriction_windows.windows:
+		#text += "Diff: %s, Start: %s, End: %s\n" % [w.start_segment - w.end_segment, w.start_segment, w.end_segment]
+	#$CanvasLayer/Label.text = text
+	pass
 
 
 func _on_warrior_killed(warrior: Warrior) -> void:

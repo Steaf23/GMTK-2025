@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://d8o1vugqmmxy" path="res://dragon/dragon.tscn" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ltdh8p4c31as" path="res://world.gd" id="1_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://b7coq10u52ija" path="res://warrior.tscn" id="3_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://b7coq10u52ija" path="res://warrior/warrior.tscn" id="3_tlwt5"]
 [ext_resource type="AudioStream" uid="uid://r7gpjshk6a70" path="res://sound/game_music.wav" id="4_aqk2v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fj7yv"]

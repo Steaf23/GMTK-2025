@@ -15,6 +15,8 @@ var strangle_points: PackedVector2Array = []
 var constriction_windows: ConstrictionManager = ConstrictionManager.new()
 
 func _ready() -> void:
+	Global.dragon = self
+	
 	for i in 30:
 		add_segment()
 	
@@ -70,7 +72,9 @@ func _on_mouth_area_entered(area: Area2D) -> void:
 
 
 func consumable_entered_mouth(consumable: Consumable) -> void:
-
+	if not consumable.owner.can_be_eaten:
+		return
+	
 	head.is_eating = true
 	speed_mult = 0.6
 	eating_count += 1
@@ -85,22 +89,6 @@ func consumable_entered_mouth(consumable: Consumable) -> void:
 	if consumable:
 		consumable.owner.queue_free()
 	add_segment()
-
-
-
-func _draw() -> void:
-	#for b in segments():
-		#draw_circle(to_local(b.global_position), 10, Color.html("#e8c7b3"))
-		#
-	#for b in segments():
-		#draw_circle(to_local(b.global_position) + Vector2(0, 5), 10, Color.html("#cf0000"))
-	#
-	if strangle_points.is_empty():
-		return
-	
-	var c = Color.DODGER_BLUE
-	c.a = 0.5
-	draw_colored_polygon(strangle_points, c)
 
 
 func _on_mouth_body_entered(body: Node2D) -> void:
