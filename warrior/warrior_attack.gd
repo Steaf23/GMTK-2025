@@ -3,6 +3,7 @@ extends Node2D
 
 @export var warrior: Warrior
 @export var attack_distance = 50
+@export var is_attacking: bool = false
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if not Global.dragon:

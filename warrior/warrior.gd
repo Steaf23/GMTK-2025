@@ -49,6 +49,24 @@ func is_stuck() -> bool:
 
 func _physics_process(delta: float) -> void:
 	dragon_segment = Global.nearest_segment_or_head(global_position)
+	
+	var attacking
+	var attack = get_node("Components/WarriorAttack")
+	if not attack:
+		attacking = false
+	else:
+		attacking = attack.is_attacking
+		
+	if velocity.y < 0.0:
+		if attacking:
+			$Sprite2D.play("back_attack")
+		else:
+			$Sprite2D.play("back")
+	else:
+		if attacking:
+			$Sprite2D.play("front_attack")
+		else:
+			$Sprite2D.play("attack")
 
 
 func _on_constrict_timer_timeout() -> void:

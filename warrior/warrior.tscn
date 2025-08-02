@@ -1,9 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://b7coq10u52ija"]
+[gd_scene load_steps=12 format=3 uid="uid://b7coq10u52ija"]
 
 [ext_resource type="Script" uid="uid://cc28b3oqnrpw0" path="res://consume_area.gd" id="1_bgok4"]
 [ext_resource type="Script" uid="uid://dgw8gislf8qdr" path="res://warrior/warrior.gd" id="1_pkbmn"]
 [ext_resource type="PackedScene" uid="uid://cr3ov5c5mrfn4" path="res://warrior/warrior_attack.tscn" id="2_wxviw"]
 [ext_resource type="PackedScene" uid="uid://b0yqolnher2n3" path="res://warrior/warrior_movement.tscn" id="3_6mo0w"]
+[ext_resource type="Texture2D" uid="uid://c2p1psko1nsau" path="res://warrior/warrior_sprites/warrior_back_g.png" id="5_s5rb1"]
+[ext_resource type="Texture2D" uid="uid://coxtdp7jv2i1s" path="res://warrior/warrior_sprites/warrior_back_attack_g.png" id="6_w5tr0"]
+[ext_resource type="Texture2D" uid="uid://ca74urk658iku" path="res://warrior/warrior_sprites/warrior_g.png" id="7_tajao"]
+[ext_resource type="Texture2D" uid="uid://bq3aaw43q3j7b" path="res://warrior/warrior_sprites/warrior_attack_g.png" id="8_lulqq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gnuc2"]
 radius = 12.0
@@ -11,14 +15,40 @@ radius = 12.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_dvau4"]
 radius = 18.0278
 
-[sub_resource type="Gradient" id="Gradient_pkbmn"]
-offsets = PackedFloat32Array(0.246753, 0.311688)
-colors = PackedColorArray(0.133333, 0.360784, 0.32549, 1, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_373gj"]
-gradient = SubResource("Gradient_pkbmn")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+[sub_resource type="SpriteFrames" id="SpriteFrames_cn8nl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_s5rb1")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_w5tr0")
+}],
+"loop": true,
+"name": &"back_attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_tajao")
+}],
+"loop": true,
+"name": &"front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_lulqq")
+}],
+"loop": true,
+"name": &"front_attack",
+"speed": 5.0
+}]
 
 [node name="Warrior" type="CharacterBody2D"]
 collision_layer = 15
@@ -31,6 +61,7 @@ max_health = 3
 
 [node name="WarriorAttack" parent="Components" node_paths=PackedStringArray("warrior") instance=ExtResource("2_wxviw")]
 warrior = NodePath("../..")
+is_attacking = false
 
 [node name="WarriorMovement" parent="Components" node_paths=PackedStringArray("warrior") instance=ExtResource("3_6mo0w")]
 warrior = NodePath("../..")
@@ -87,14 +118,16 @@ collision_mask = 15
 [node name="ConstrictTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_373gj")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_cn8nl")
+animation = &"front_attack"
+autoplay = "front"
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = -69.0
-offset_top = 16.0
-offset_right = 70.0
-offset_bottom = 35.0
+offset_left = -21.0
+offset_top = -22.0
+offset_right = 22.0
+offset_bottom = -11.0
 max_value = 5.0
 step = 1.0
 value = 1.0

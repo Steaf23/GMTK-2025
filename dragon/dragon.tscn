@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://d8o1vugqmmxy"]
+[gd_scene load_steps=15 format=3 uid="uid://d8o1vugqmmxy"]
 
 [ext_resource type="Script" uid="uid://cc6d6md11c45e" path="res://dragon/dragon.gd" id="1_lmeim"]
 [ext_resource type="Script" uid="uid://c6f6pfor75aa3" path="res://dragon/head.gd" id="2_irmc6"]
+[ext_resource type="PackedScene" uid="uid://bbm74415xgith" path="res://dragon/body_segment.tscn" id="2_r8lk1"]
 [ext_resource type="Texture2D" uid="uid://dwd0kufyiv30e" path="res://dragon/dragon_sprites/dragon_head2f.png" id="3_2yoc3"]
 [ext_resource type="Texture2D" uid="uid://b5nr5jkso5nqo" path="res://dragon/dragon_sprites/dragon_head3f.png" id="4_qw8pt"]
 [ext_resource type="Texture2D" uid="uid://bpm52t6w6pxnc" path="res://dragon/dragon_sprites/dragon_head4f.png" id="5_g2ok4"]
@@ -60,6 +61,12 @@ script = ExtResource("1_lmeim")
 speed_curve = SubResource("Curve_g2ok4")
 
 [node name="Body" type="Node2D" parent="."]
+
+[node name="BodySegment" parent="Body" instance=ExtResource("2_r8lk1")]
+position = Vector2(37, 0)
+
+[node name="BodySegment2" parent="Body" instance=ExtResource("2_r8lk1")]
+position = Vector2(19, 0)
 
 [node name="Head" type="CharacterBody2D" parent="."]
 collision_mask = 2

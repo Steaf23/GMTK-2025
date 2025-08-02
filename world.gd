@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 
 func _on_player_died() -> void:
 	$Gameover.show()
-	$%FinalScore.text = "High Score: %s\nScore: %s" % [highscore, dragon.segments().size()]
+	$%FinalScore.text = "Score: %s" % [highscore]
 	get_tree().paused = true
 	
 
