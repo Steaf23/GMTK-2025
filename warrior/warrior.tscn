@@ -61,7 +61,6 @@ max_health = 3
 
 [node name="WarriorAttack" parent="Components" node_paths=PackedStringArray("warrior") instance=ExtResource("2_wxviw")]
 warrior = NodePath("../..")
-is_attacking = false
 
 [node name="WarriorMovement" parent="Components" node_paths=PackedStringArray("warrior") instance=ExtResource("3_6mo0w")]
 warrior = NodePath("../..")
