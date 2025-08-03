@@ -13,6 +13,8 @@ config_version=5
 config/name="GMTK 2025"
 run/main_scene="uid://bupsu2mvx1scy"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+boot_splash/bg_color=Color(0.0605303, 0.0605303, 0.0605303, 1)
+boot_splash/image="uid://dedbutwkupue5"
 config/icon="res://icon.svg"
 
 [audio]
