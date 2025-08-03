@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bix4io581wpdv"
+path="res://.godot/imported/UI_Button_ Press_01.ogg-1e98bafa0d826f9e9cd2c88aac7fcf79.oggvorbisstr"
+
+[deps]
+
+source_file="res://sound/UI_Button_ Press_01.ogg"
+dest_files=["res://.godot/imported/UI_Button_ Press_01.ogg-1e98bafa0d826f9e9cd2c88aac7fcf79.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

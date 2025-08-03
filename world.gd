@@ -23,8 +23,13 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("restart"):
+		_on_restart_pressed()	
+
 	if in_tutorial and event.is_action_pressed("continue"):
+		in_tutorial = false
 		$Tutorial.hide()
+		SoundManager.play_sfx(Sounds.GAME_START, 0.3)
 		dragon.start_moving()
 		for i in 2:
 			dragon.add_segment()
@@ -49,6 +54,9 @@ func _process(delta: float) -> void:
 		highscore = s
 	score.text = "High Score: %s\nScore: %s" % [highscore, s]
 	
+	
+	if in_tutorial:
+		return
 	counter += delta
 	var second = counter 
 	%Time.text = "%s:%2s" % [str(int(counter / 60)).pad_zeros(2), str(int(counter) % 60).pad_zeros(2)]
@@ -78,6 +86,7 @@ func _on_warrior_killed(warrior: Warrior) -> void:
 
 
 func _on_restart_pressed() -> void:
+	SoundManager.play_sfx(Sounds.BUTTON_PRESS, .5)
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 

@@ -2,6 +2,8 @@ class_name Sounds
 extends RefCounted
 
 const MUSIC_GAME: StringName = &"res://sound/game_music.wav"
+const GAME_START: StringName = "res://sound/UI_Button_GameStart_01.ogg"
+const BUTTON_PRESS: StringName = "res://sound/UI_Button_ Press_01.ogg"
 
 const BITE_METAL: Array[StringName] = [
 	"res://sound/Dragon_BiteMetal_01.ogg",

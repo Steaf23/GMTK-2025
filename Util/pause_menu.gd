@@ -30,4 +30,5 @@ func unpause() -> void:
 
 
 func _on_resume_pressed() -> void:
+	SoundManager.play_sfx(Sounds.BUTTON_PRESS, .5)
 	toggle_pause()
