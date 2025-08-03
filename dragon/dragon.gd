@@ -82,6 +82,8 @@ func _on_mouth_area_entered(area: Area2D) -> void:
 
 func consumable_entered_mouth(consumable: Consumable) -> void:
 	if not consumable.owner.can_be_eaten:
+		SoundManager.stop_any_sfx(Sounds.BITE_METAL)
+		SoundManager.play_random_sfx(Sounds.BITE_METAL)
 		return
 	
 	consumable.eat()
@@ -243,7 +245,9 @@ func get_speed_multiplier(segment_count: int) -> float:
 func take_damage(part: Node2D) -> void:
 	if not $InvincibleTimer.is_stopped():
 		return
-		
+	
+	SoundManager.play_random_sfx(Sounds.DAMAGED)
+	$Head/AnimationPlayer.play("damaged")
 	remove_segment()
 	$InvincibleTimer.start()
 	

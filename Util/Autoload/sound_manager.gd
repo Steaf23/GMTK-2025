@@ -75,6 +75,14 @@ func stop_sfx(path: String) -> void:
 			player.stop()
 			player.queue_free()
 			return
+	
+	
+func stop_any_sfx(path: Array[StringName]) -> void:
+	for player in _sfx_pool.get_children():
+		if player.get_meta("path") in path:
+			player.stop()
+			player.queue_free()
+			return
 			
 			
 func _stop_player(player: AudioStreamPlayer) -> void:

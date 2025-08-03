@@ -46,7 +46,7 @@ func _input(event: InputEvent) -> void:
 		bite_input = false
 		%Sprite.play("default")
 		
-		#TODO: SOUND bite
+		SoundManager.play_random_sfx(Sounds.BITE, .5)
 		$BiteTimeout.start()
 		
 		$HeadPivot/Mouth/MouthShape.set_deferred("disabled", false)

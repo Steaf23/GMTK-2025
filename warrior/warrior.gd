@@ -101,9 +101,10 @@ func _on_constrict_timer_timeout() -> void:
 	captured = false
 	
 	if not can_be_damaged and not can_always_be_damaged:
-		#TODO: SOUND clank
+		SoundManager.play_random_sfx(Sounds.BITE_METAL)
 		return
 		
+	SoundManager.play_random_sfx(Sounds.DASH)
 	health -= 1
 	if health <= 0:
 		killed.emit()
