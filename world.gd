@@ -7,11 +7,11 @@ extends Node2D
 
 @onready var highscore = 0
 
+var in_tutorial: bool = true
+
 
 func _ready() -> void:
 	randomize()
-	
-	spawner.start()
 	
 	dragon.player_died.connect(_on_player_died)
 	
@@ -19,6 +19,14 @@ func _ready() -> void:
 		if c is Warrior:
 			c.killed.connect(_on_warrior_killed.bind(c))
 
+
+func _input(event: InputEvent) -> void:
+	if in_tutorial and event.is_action_pressed("continue"):
+		$Tutorial.hide()
+		dragon.start_moving()
+		for i in 5:
+			dragon.add_segment()
+		spawner.start()
 
 func _on_add_pressed() -> void:
 	dragon.add_segment()
@@ -39,7 +47,7 @@ func _process(delta: float) -> void:
 		highscore = s
 	score.text = "High Score: %s\nScore: %s" % [highscore, s]
 	
-	$CanvasLayer/DEBUG.text = "%.2f" % [spawner.difficulty]
+	$HUD/DEBUG.text = "%.2f" % [spawner.difficulty]
 
 
 func _on_player_died() -> void:

@@ -16,16 +16,19 @@ var strangle_points: PackedVector2Array = []
 # array of arrays, keeping track of segments that are part of a possible constriction.
 var constriction_windows: ConstrictionManager = ConstrictionManager.new()
 
+var started: bool = false
 
 func _ready() -> void:
 	Global.dragon = self
 	
-	for i in 7:
-		add_segment()
-	
+	add_segment()
+
+
+func start_moving() -> void:
+	started = true
+
 
 func _physics_process(delta: float) -> void:
-	
 	var cur_speed = speed * speed_mult * speed_curve.sample(segments().size())
 
 	$Head.speed = cur_speed

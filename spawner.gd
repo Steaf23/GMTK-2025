@@ -22,7 +22,7 @@ extends Node2D
 var spawnables: Array = [
 	{"scene": preload("res://warrior/pot_warrior.tscn"), "weight": 1},
 	{"scene": preload("res://warrior/small_warrior.tscn"), "weight": 5},
-	{"scene": preload("res://warrior/big_warrior.tscn"), "weight": 20},
+	{"scene": preload("res://warrior/big_warrior.tscn"), "weight": 25},
 ]
 
 func start() -> void:

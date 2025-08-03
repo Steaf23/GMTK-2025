@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bupsu2mvx1scy"]
+[gd_scene load_steps=13 format=4 uid="uid://bupsu2mvx1scy"]
 
 [ext_resource type="PackedScene" uid="uid://d8o1vugqmmxy" path="res://dragon/dragon.tscn" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ltdh8p4c31as" path="res://world.gd" id="1_tlwt5"]
@@ -254,10 +254,11 @@ terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_wse8f")
 sources/1 = SubResource("TileSetAtlasSource_ic0uy")
 
+[sub_resource type="LabelSettings" id="LabelSettings_gbfbk"]
+font_size = 8
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_tlwt5")
-
-[node name="Tutorial" type="Node2D" parent="."]
 
 [node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("world")]
 script = ExtResource("2_wse8f")
@@ -308,13 +309,38 @@ tile_set = SubResource("TileSet_dwbse")
 [node name="Dragon" parent="." instance=ExtResource("1_fj7yv")]
 
 [node name="BodySegment" parent="Dragon/Body" index="0"]
-position = Vector2(352, 169)
-
-[node name="BodySegment2" parent="Dragon/Body" index="1"]
-position = Vector2(373, 170)
+position = Vector2(302, 169)
 
 [node name="Head" parent="Dragon" index="1"]
 position = Vector2(327, 170)
+
+[node name="Tutorial" type="CanvasLayer" parent="."]
+process_mode = 3
+layer = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="Tutorial"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Tutorial/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Label" type="Label" parent="Tutorial/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "The dragon follows your mouse cursor.
+(Hold) Left click to Bite
+Constrict enemies to break their armor by making tight loops around them"
+label_settings = SubResource("LabelSettings_gbfbk")
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Tutorial/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Press [SPACE] to start"
+horizontal_alignment = 1
 
 [node name="Gameover" type="CanvasLayer" parent="."]
 process_mode = 2
@@ -361,9 +387,9 @@ text = "Score: 0"
 layout_mode = 2
 text = "Restart"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="CanvasLayer"]
+[node name="Label" type="Label" parent="HUD"]
 visible = false
 anchors_preset = 1
 anchor_left = 1.0
@@ -373,7 +399,7 @@ offset_bottom = 23.0
 grow_horizontal = 0
 text = "WTF"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
 visible = false
 anchors_preset = 7
 anchor_left = 0.5
@@ -388,15 +414,15 @@ grow_vertical = 0
 theme_override_constants/separation = 30
 alignment = 1
 
-[node name="Add" type="Button" parent="CanvasLayer/HBoxContainer"]
+[node name="Add" type="Button" parent="HUD/HBoxContainer"]
 layout_mode = 2
 text = "Add"
 
-[node name="Remove" type="Button" parent="CanvasLayer/HBoxContainer"]
+[node name="Remove" type="Button" parent="HUD/HBoxContainer"]
 layout_mode = 2
 text = "Remove"
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_constants/margin_left = 10
@@ -404,12 +430,12 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Score" type="Label" parent="CanvasLayer/MarginContainer"]
+[node name="Score" type="Label" parent="HUD/MarginContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Segments: 0"
 
-[node name="DEBUG" type="Label" parent="CanvasLayer"]
+[node name="DEBUG" type="Label" parent="HUD"]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -423,14 +449,15 @@ stream = ExtResource("4_aqk2v")
 autoplay = true
 bus = &"Music"
 
-[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+[node name="Pause" type="CanvasLayer" parent="."]
 layer = 20
 
-[node name="PauseMenu" parent="CanvasLayer2" instance=ExtResource("8_gbfbk")]
+[node name="PauseMenu" parent="Pause" instance=ExtResource("8_gbfbk")]
+visible = false
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="pressed" from="Gameover/CenterContainer/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Add" to="." method="_on_add_pressed"]
-[connection signal="pressed" from="CanvasLayer/HBoxContainer/Remove" to="." method="_on_remove_pressed"]
+[connection signal="pressed" from="HUD/HBoxContainer/Add" to="." method="_on_add_pressed"]
+[connection signal="pressed" from="HUD/HBoxContainer/Remove" to="." method="_on_remove_pressed"]
 
 [editable path="Dragon"]

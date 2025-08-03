@@ -8,7 +8,7 @@ var idx = 0
 
 @onready var leading: Node2D = null
 
-@onready var is_last: bool = false:
+@export var is_last: bool = false:
 	set(value):
 		is_last = value
 		if is_node_ready():
@@ -40,7 +40,7 @@ func update_position(leading: Node2D, follow_distance: float, speed: int, delta:
 	
 	self.leading = leading
 	var target = leading.global_position.direction_to(global_position) * follow_distance + leading.global_position
-		
+	
 	var direction = target - global_position
 	var distance = direction.length()
 		

@@ -14,6 +14,9 @@ signal finish_eating()
 
 
 func _physics_process(delta: float) -> void:
+	if not get_parent().started:
+		return
+		
 	if not is_eating:
 		var input_dir = get_viewport_rect().get_center().direction_to(get_viewport().get_mouse_position())
 		var angle = cur_dir.angle_to(input_dir)

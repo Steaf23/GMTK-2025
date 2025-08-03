@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://d8o1vugqmmxy"]
+[gd_scene load_steps=18 format=3 uid="uid://d8o1vugqmmxy"]
 
 [ext_resource type="Script" uid="uid://cc6d6md11c45e" path="res://dragon/dragon.gd" id="1_lmeim"]
 [ext_resource type="Script" uid="uid://c6f6pfor75aa3" path="res://dragon/head.gd" id="2_irmc6"]
@@ -56,6 +56,42 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_qw8pt"]
 radius = 8.0
 
+[sub_resource type="Animation" id="Animation_bu73e"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_r8lk1"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5ebm8"]
+_data = {
+&"RESET": SubResource("Animation_bu73e"),
+&"fade_in": SubResource("Animation_r8lk1")
+}
+
 [node name="Dragon" type="Node2D"]
 script = ExtResource("1_lmeim")
 follow_distance = 12
@@ -65,9 +101,6 @@ speed_curve = SubResource("Curve_g2ok4")
 
 [node name="BodySegment" parent="Body" instance=ExtResource("2_r8lk1")]
 position = Vector2(37, 0)
-
-[node name="BodySegment2" parent="Body" instance=ExtResource("2_r8lk1")]
-position = Vector2(19, 0)
 
 [node name="Head" type="CharacterBody2D" parent="."]
 collision_mask = 2
@@ -95,6 +128,7 @@ disabled = true
 unique_name_in_owner = true
 position = Vector2(5, 0)
 sprite_frames = SubResource("SpriteFrames_5ebm8")
+animation = &"open"
 autoplay = "default"
 flip_h = true
 
@@ -103,6 +137,13 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head/SegmentDetect"]
 shape = SubResource("CircleShape2D_qw8pt")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Head"]
+libraries = {
+&"": SubResource("AnimationLibrary_5ebm8")
+}
+autoplay = "fade_in"
+speed_scale = 0.5
 
 [node name="Line2D" type="Line2D" parent="."]
 
