@@ -22,7 +22,7 @@ var constriction_windows: ConstrictionManager = ConstrictionManager.new()
 func _ready() -> void:
 	Global.dragon = self
 	
-	for i in 20:
+	for i in 7:
 		add_segment()
 	
 

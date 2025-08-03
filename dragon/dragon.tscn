@@ -58,6 +58,7 @@ radius = 8.0
 
 [node name="Dragon" type="Node2D"]
 script = ExtResource("1_lmeim")
+follow_distance = 12
 speed_curve = SubResource("Curve_g2ok4")
 
 [node name="Body" type="Node2D" parent="."]
