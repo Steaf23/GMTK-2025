@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://bupsu2mvx1scy"]
+[gd_scene load_steps=26 format=4 uid="uid://bupsu2mvx1scy"]
 
 [ext_resource type="PackedScene" uid="uid://d8o1vugqmmxy" path="res://dragon/dragon.tscn" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ltdh8p4c31as" path="res://world.gd" id="1_tlwt5"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://cbbnqrw8aq8um" path="res://Other_sprites/corner_wall.png" id="7_k3n1d"]
 [ext_resource type="Texture2D" uid="uid://o6oogmonpumm" path="res://Other_sprites/temple tileset.png" id="8_2o6r5"]
 [ext_resource type="PackedScene" uid="uid://d0pwau4w45s2f" path="res://Util/pause_menu.tscn" id="8_gbfbk"]
+[ext_resource type="Texture2D" uid="uid://08p1i4gdwi83" path="res://Other_sprites/leaves.png" id="13_2o6r5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wse8f"]
 texture = ExtResource("2_gbfbk")
@@ -345,6 +346,34 @@ sources/5 = SubResource("TileSetAtlasSource_hiqwa")
 [sub_resource type="LabelSettings" id="LabelSettings_gbfbk"]
 font_size = 8
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_70uel"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 3
+particles_anim_loop = false
+
+[sub_resource type="Gradient" id="Gradient_hiqwa"]
+offsets = PackedFloat32Array(0, 0.176101, 0.849057, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2u3nc"]
+gradient = SubResource("Gradient_hiqwa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k3n1d"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(500, 300, 1)
+spread = 20.0
+initial_velocity_min = 20.0
+initial_velocity_max = 80.0
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = 50.0
+gravity = Vector3(0, 10, 0)
+scale_min = 0.5
+scale_max = 1.2
+color_ramp = SubResource("GradientTexture1D_2u3nc")
+anim_offset_max = 1.0
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_tlwt5")
 
@@ -546,6 +575,14 @@ layer = 20
 
 [node name="PauseMenu" parent="Pause" instance=ExtResource("8_gbfbk")]
 visible = false
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_70uel")
+position = Vector2(322, 193)
+amount = 100
+texture = ExtResource("13_2o6r5")
+visibility_rect = Rect2(-300, -150, 600, 300)
+process_material = SubResource("ParticleProcessMaterial_k3n1d")
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="pressed" from="Gameover/CenterContainer/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
