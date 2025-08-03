@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dxaugeji2cppv"]
+[gd_scene load_steps=12 format=3 uid="uid://dxaugeji2cppv"]
 
 [ext_resource type="PackedScene" uid="uid://b7coq10u52ija" path="res://warrior/warrior.tscn" id="1_8f3ye"]
 [ext_resource type="Texture2D" uid="uid://cn6rmxaesinhp" path="res://warrior/warrior_sprites/warrior_big_back.png" id="2_2ynjj"]
@@ -8,6 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://b7mgt57g7b0b0" path="res://warrior/warrior_sprites/warrior_big.png" id="4_jcoxx"]
 [ext_resource type="Texture2D" uid="uid://c3s4p6d6kr2bl" path="res://warrior/warrior_sprites/sword_big.png" id="4_q46oy"]
 [ext_resource type="Texture2D" uid="uid://bsnifd7my0p45" path="res://warrior/warrior_sprites/warrior_big_attack.png" id="5_q46oy"]
+[ext_resource type="Shader" uid="uid://b7hinhji2tquo" path="res://warrior/hit_flash.gdshader" id="5_st6ys"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_st6ys"]
+resource_local_to_scene = true
+shader = ExtResource("5_st6ys")
+shader_parameter/amount = 0.0
+shader_parameter/color = Color(0.397131, 0.540046, 0.510178, 1)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_st6ys"]
 animations = [{
@@ -71,18 +78,19 @@ reward = 2
 [node name="Rays" parent="." index="3"]
 visible = false
 
-[node name="Sprite2D" parent="." index="5"]
-modulate = Color(0.397131, 0.540046, 0.510178, 1)
-sprite_frames = SubResource("SpriteFrames_st6ys")
-animation = &"front_attack"
-autoplay = ""
-
-[node name="ProgressBar" parent="." index="6"]
+[node name="ProgressBar" parent="." index="5"]
 offset_left = -21.0
 offset_right = 22.0
 tint_progress = Color(0.811765, 0.2, 0.215686, 1)
 
-[node name="AnimationPlayer" parent="." index="7"]
+[node name="AnimationPlayer" parent="." index="6"]
 speed_scale = 0.75
+
+[node name="Sprite2D" parent="." index="9"]
+modulate = Color(0.397131, 0.540046, 0.510178, 1)
+material = SubResource("ShaderMaterial_st6ys")
+sprite_frames = SubResource("SpriteFrames_st6ys")
+animation = &"front_attack"
+autoplay = ""
 
 [editable path="Components/WarriorAttack"]

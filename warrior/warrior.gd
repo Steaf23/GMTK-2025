@@ -105,7 +105,7 @@ func _on_constrict_timer_timeout() -> void:
 	captured = false
 	
 	if not can_be_damaged and not can_always_be_damaged:
-		SoundManager.play_random_sfx(Sounds.BITE_METAL)
+		play_hit()
 		return
 		
 	SoundManager.play_random_sfx(Sounds.DASH, 0.4)
@@ -125,3 +125,8 @@ func _on_retarget_timer_timeout() -> void:
 
 func get_reward() -> int:
 	return $ConsumeArea.reward
+
+
+func play_hit() -> void:
+	SoundManager.play_random_sfx(Sounds.BITE_METAL)
+	$HitPlayer.play("armor_hit")

@@ -83,7 +83,7 @@ func _on_mouth_area_entered(area: Area2D) -> void:
 func consumable_entered_mouth(consumable: Consumable) -> void:
 	if not consumable.owner.can_be_eaten:
 		SoundManager.stop_any_sfx(Sounds.BITE_METAL)
-		SoundManager.play_random_sfx(Sounds.BITE_METAL)
+		consumable.owner.play_hit()
 		return
 	
 	consumable.eat()
