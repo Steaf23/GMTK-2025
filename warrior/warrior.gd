@@ -28,6 +28,7 @@ signal killed()
 		if health == 1:
 			can_be_eaten = true
 			can_be_damaged = can_always_be_damaged
+			$ProgressBar.tint_progress = Color.html("#cf3337")
 
 @onready var captured: bool = false:
 	set(value):
@@ -46,6 +47,7 @@ func _ready() -> void:
 	$StaticBody2D.add_collision_exception_with(self)
 	$ProgressBar.max_value = max_health
 	$ProgressBar.value = max_health
+	$ProgressBar.tint_progress = Color.html("#00c700")
 		
 	for c in $Rays.get_children():
 		c.add_exception(self)
@@ -99,6 +101,7 @@ func _on_constrict_timer_timeout() -> void:
 	captured = false
 	
 	if not can_be_damaged and not can_always_be_damaged:
+		#TODO: SOUND clank
 		return
 		
 	health -= 1

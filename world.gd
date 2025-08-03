@@ -57,6 +57,15 @@ func _on_player_died() -> void:
 	
 
 func _on_warrior_killed(warrior: Warrior) -> void:
+	if warrior.get_reward() == 1:
+		spawn_spirit(warrior.global_position, 0)
+	elif warrior.get_reward() == 2:
+		spawn_spirit(warrior.global_position, 8)
+		spawn_spirit(warrior.global_position, 8)
+	else:
+		for i in 3:
+			spawn_spirit(warrior.global_position, 12)
+	
 	for i in warrior.get_reward():
 		dragon.add_segment()
 	warrior.queue_free()
@@ -70,3 +79,13 @@ func _on_restart_pressed() -> void:
 func add_warrior(warrior: Warrior) -> void:
 	warrior.killed.connect(_on_warrior_killed.bind(warrior))
 	$Enemies.add_child(warrior)
+	
+
+func get_warrior_count() -> int:
+	return $Enemies.get_children().filter(func(w): return w is not PotWarrior).size()
+
+
+func spawn_spirit(global_pos: Vector2, pos_offset_radius: int) -> void:
+	var spirit = preload("res://warrior/spirit.tscn").instantiate()
+	$Spirits.add_child(spirit)
+	spirit.global_position = global_pos + Vector2(randi_range(0, pos_offset_radius), randi_range(0, pos_offset_radius) - 5)

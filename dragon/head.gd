@@ -34,36 +34,24 @@ func _physics_process(delta: float) -> void:
 		%Sprite.scale.y = 1
 		
 	$HeadPivot.rotation = velocity.angle()
-
-
-#func _on_sprite_animation_finished() -> void:
-	#if %Sprite.animation == "open":
-		#if not bite_input:
-			## entering the bite phase
-			#$HeadPivot/Mouth/MouthShape.set_deferred("disabled", false)
-			#
-			#await get_tree().create_timer(0.3).timeout
-			#
-			#$HeadPivot/Mouth/MouthShape.set_deferred("disabled", true)
-		#else:
-			## TODO: add bite SFX
-			#%Sprite.play("default")
-		
-
+	
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("bite"):
+	if event.is_action_pressed("bite") and $BiteTimeout.is_stopped():
 		bite_input = true
 		%Sprite.play("open")
 		start_eating.emit()
 	
-	if event.is_action_released("bite"):
+	if event.is_action_released("bite") and bite_input:
 		bite_input = false
 		%Sprite.play("default")
 		
+		#TODO: SOUND bite
+		$BiteTimeout.start()
+		
 		$HeadPivot/Mouth/MouthShape.set_deferred("disabled", false)
 			
-		await get_tree().create_timer(0.3).timeout
+		await get_tree().create_timer(0.1).timeout
 		
 		finish_eating.emit()
 		$HeadPivot/Mouth/MouthShape.set_deferred("disabled", true)

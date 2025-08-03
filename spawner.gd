@@ -9,6 +9,7 @@ extends Node2D
 @export var max_spawns_per_check: int = 5
 @export var min_spawns_per_check: int = 2
 @export var dragon_segment_radius: float = 30
+@export var max_warriors: int = 12
 
 @onready var regions: Node2D = $Regions
 @onready var difficulty: float = starting_difficulty
@@ -57,6 +58,9 @@ func _on_spawn_timer_timeout() -> void:
 
 
 func get_spawnable_with_budget(budget: int) -> Dictionary:
+	if world.get_warrior_count() > max_warriors:
+		return spawnables[0]
+		
 	var choices = spawnables.filter(func(s): return budget >= s.weight)
 	if choices.is_empty():
 		return {"scene": null, "weight": 0}
@@ -68,8 +72,6 @@ func spawn(scene: PackedScene) -> void:
 	assert(world, "SET OBJECTS NODE FOR SPAWNING")
 	if not world:
 		return
-	var obj = scene.instantiate()
-	world.add_warrior(obj)
 	
 	var region = determine_spawn_region()
 	var spawn_pos = Vector2(randf_range(region.position.x, region.end.x), randf_range(region.position.y, region.end.y))
@@ -78,6 +80,11 @@ func spawn(scene: PackedScene) -> void:
 			break
 		spawn_pos = Vector2(randf_range(region.position.x, region.end.x), randf_range(region.position.y, region.end.y))
 	
+	if overlaps_dragon(regions.global_position + spawn_pos):
+		return
+	
+	var obj = scene.instantiate()
+	world.add_warrior(obj)
 	obj.global_position = regions.global_position + spawn_pos
 	
 	

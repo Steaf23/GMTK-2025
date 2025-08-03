@@ -120,7 +120,7 @@ _data = {
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w2elu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wqkt1"]
-bg_color = Color(0.682353, 0.0156863, 0.482353, 1)
+bg_color = Color(0.145098, 0.356863, 0.643137, 1)
 
 [node name="WarriorAttack" type="Node2D"]
 z_index = 1

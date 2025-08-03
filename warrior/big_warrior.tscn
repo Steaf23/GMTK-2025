@@ -62,6 +62,12 @@ position = Vector2(36, 1)
 rotation = 0.785398
 texture = ExtResource("4_q46oy")
 
+[node name="Cooldown" parent="Components/WarriorAttack" index="2"]
+wait_time = 2.5
+
+[node name="ConsumeArea" parent="." index="2"]
+reward = 2
+
 [node name="Rays" parent="." index="3"]
 visible = false
 
@@ -70,6 +76,11 @@ modulate = Color(0.397131, 0.540046, 0.510178, 1)
 sprite_frames = SubResource("SpriteFrames_st6ys")
 animation = &"front_attack"
 autoplay = ""
+
+[node name="ProgressBar" parent="." index="6"]
+offset_left = -21.0
+offset_right = 22.0
+tint_progress = Color(0.811765, 0.2, 0.215686, 1)
 
 [node name="AnimationPlayer" parent="." index="7"]
 speed_scale = 0.75

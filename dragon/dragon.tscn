@@ -145,6 +145,10 @@ libraries = {
 autoplay = "fade_in"
 speed_scale = 0.5
 
+[node name="BiteTimeout" type="Timer" parent="Head"]
+wait_time = 0.5
+one_shot = true
+
 [node name="Line2D" type="Line2D" parent="."]
 
 [node name="StartTimer" type="Timer" parent="."]
