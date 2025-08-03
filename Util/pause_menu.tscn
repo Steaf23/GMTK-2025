@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0pwau4w45s2f"]
+
+[ext_resource type="PackedScene" uid="uid://ux1lgkuk6mvl" path="res://Util/SoundManager/volume_settings.tscn" id="1_1guw7"]
+[ext_resource type="Theme" uid="uid://h653lc8w7kel" path="res://Util/game_theme.tres" id="1_wlkit"]
+[ext_resource type="Script" uid="uid://ch0ghx83bsus8" path="res://Util/pause_menu.gd" id="2_b6bf3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_vsawu"]
+font_color = Color(1, 1, 1, 0.752941)
+
+[node name="PauseMenu" type="VBoxContainer"]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_wlkit")
+script = ExtResource("2_b6bf3")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 750.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.431373)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+text = "Paused"
+label_settings = SubResource("LabelSettings_vsawu")
+horizontal_alignment = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 10
+
+[node name="Volume" parent="MarginContainer3" instance=ExtResource("1_1guw7")]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2"]
+layout_mode = 2
+alignment = 1
+
+[node name="Resume" type="Button" parent="MarginContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Resume"
+
+[connection signal="pressed" from="MarginContainer2/HBoxContainer/Resume" to="." method="_on_resume_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://bupsu2mvx1scy"]
+[gd_scene load_steps=12 format=4 uid="uid://bupsu2mvx1scy"]
 
 [ext_resource type="PackedScene" uid="uid://d8o1vugqmmxy" path="res://dragon/dragon.tscn" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ltdh8p4c31as" path="res://world.gd" id="1_tlwt5"]
@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://cgin5r7f81fak" path="res://theme.tres" id="3_036b0"]
 [ext_resource type="Texture2D" uid="uid://cq55tvuw4wjrc" path="res://icon.svg" id="3_ioo17"]
 [ext_resource type="AudioStream" uid="uid://r7gpjshk6a70" path="res://sound/game_music.wav" id="4_aqk2v"]
+[ext_resource type="PackedScene" uid="uid://d0pwau4w45s2f" path="res://Util/pause_menu.tscn" id="8_gbfbk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wse8f"]
 texture = ExtResource("2_gbfbk")
@@ -256,6 +257,8 @@ sources/1 = SubResource("TileSetAtlasSource_ic0uy")
 [node name="World" type="Node2D"]
 script = ExtResource("1_tlwt5")
 
+[node name="Tutorial" type="Node2D" parent="."]
+
 [node name="Spawner" type="Node2D" parent="." node_paths=PackedStringArray("world")]
 script = ExtResource("2_wse8f")
 starting_difficulty = -1.0
@@ -415,8 +418,15 @@ offset_right = 40.0
 grow_vertical = 0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
 stream = ExtResource("4_aqk2v")
 autoplay = true
+bus = &"Music"
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="PauseMenu" parent="CanvasLayer2" instance=ExtResource("8_gbfbk")]
 
 [connection signal="timeout" from="Spawner/SpawnTimer" to="Spawner" method="_on_spawn_timer_timeout"]
 [connection signal="pressed" from="Gameover/CenterContainer/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]

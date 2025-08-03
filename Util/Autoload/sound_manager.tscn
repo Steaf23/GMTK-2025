@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq3koyw3pjovp"]
+
+[ext_resource type="Script" uid="uid://bluan7doitiq4" path="res://Util/Autoload/sound_manager.gd" id="1_l502s"]
+
+[node name="sound_manager" type="Node"]
+process_mode = 3
+script = ExtResource("1_l502s")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="SFXPool" type="Node" parent="."]

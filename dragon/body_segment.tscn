@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bbm74415xgith"]
+[gd_scene load_steps=11 format=3 uid="uid://bbm74415xgith"]
 
 [ext_resource type="Script" uid="uid://b5nvpu2dfv8x" path="res://dragon/body_segment.gd" id="1_ll60o"]
 [ext_resource type="Texture2D" uid="uid://du6lf6b13n37l" path="res://dragon/dragon_sprites/dragon_torso_armsf.png" id="2_xyygd"]
@@ -38,6 +38,43 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_xyygd"]
 radius = 8.0
 
+[sub_resource type="Animation" id="Animation_7frwa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_xyygd"]
+resource_name = "fade_in"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xi36d"]
+_data = {
+&"RESET": SubResource("Animation_7frwa"),
+&"fade_in": SubResource("Animation_xyygd")
+}
+
 [node name="BodySegment" type="CharacterBody2D" groups=["segment"]]
 collision_mask = 2
 motion_mode = 1
@@ -55,5 +92,12 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SegmentDetect"]
 shape = SubResource("CircleShape2D_xyygd")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xi36d")
+}
+autoplay = "fade_in"
+speed_scale = 0.5
 
 [connection signal="body_exited" from="SegmentDetect" to="." method="_on_segment_detect_body_exited"]
