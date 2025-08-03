@@ -32,12 +32,16 @@ signal killed()
 
 @onready var captured: bool = false:
 	set(value):
+		if not is_stuck() and captured:
+			SoundManager.stop_any_sfx(Sounds.CONSTRICT)
+		
 		if not is_stuck():
 			captured = false
 		
 		if value and not captured:
 			$ConstrictTimer.start()
 			captured = true
+			SoundManager.play_random_sfx(Sounds.CONSTRICT, .3)
 			
 		if not value:
 			captured = false
@@ -104,7 +108,7 @@ func _on_constrict_timer_timeout() -> void:
 		SoundManager.play_random_sfx(Sounds.BITE_METAL)
 		return
 		
-	SoundManager.play_random_sfx(Sounds.DASH)
+	SoundManager.play_random_sfx(Sounds.DASH, 0.4)
 	health -= 1
 	if health <= 0:
 		killed.emit()

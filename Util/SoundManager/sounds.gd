@@ -34,3 +34,23 @@ const DASH: Array[StringName] = [
 	"res://sound/Dragon_Dash_05.ogg", 
 	"res://sound/Dragon_Dash_06.ogg",
 	]
+
+const BREAK: Array[StringName] = [
+	"res://sound/PotBreaking_01.ogg", 
+	"res://sound/PotBreaking_02.ogg", 
+	"res://sound/PotBreaking_03.ogg", 
+	"res://sound/PotBreaking_04.ogg", 
+	"res://sound/PotBreaking_05.ogg", 
+	"res://sound/PotBreaking_06.ogg", 
+	"res://sound/PotBreaking_07.ogg", 
+	"res://sound/PotBreaking_08.ogg", 
+	"res://sound/PotBreaking_09.ogg",
+	]
+
+
+const CONSTRICT: Array[StringName] = [
+	"res://sound/Warrior_Constricted_01.ogg", 
+	"res://sound/Warrior_Constricted_02.ogg", 
+	"res://sound/Warrior_Constricted_03.ogg", 
+	"res://sound/Warrior_Constricted_04.ogg"
+	]

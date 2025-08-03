@@ -9,6 +9,8 @@ extends Node2D
 
 var in_tutorial: bool = true
 
+var counter: float = 0
+
 
 func _ready() -> void:
 	randomize()
@@ -24,7 +26,7 @@ func _input(event: InputEvent) -> void:
 	if in_tutorial and event.is_action_pressed("continue"):
 		$Tutorial.hide()
 		dragon.start_moving()
-		for i in 5:
+		for i in 2:
 			dragon.add_segment()
 		spawner.start()
 
@@ -47,7 +49,9 @@ func _process(delta: float) -> void:
 		highscore = s
 	score.text = "High Score: %s\nScore: %s" % [highscore, s]
 	
-	$HUD/DEBUG.text = "%.2f" % [spawner.difficulty]
+	counter += delta
+	var second = counter 
+	%Time.text = "%s:%2s" % [str(int(counter / 60)).pad_zeros(2), str(int(counter) % 60).pad_zeros(2)]
 
 
 func _on_player_died() -> void:
@@ -57,6 +61,7 @@ func _on_player_died() -> void:
 	
 
 func _on_warrior_killed(warrior: Warrior) -> void:
+	SoundManager.stop_any_sfx(Sounds.CONSTRICT)
 	if warrior.get_reward() == 1:
 		spawn_spirit(warrior.global_position, 0)
 	elif warrior.get_reward() == 2:
@@ -66,6 +71,7 @@ func _on_warrior_killed(warrior: Warrior) -> void:
 		for i in 3:
 			spawn_spirit(warrior.global_position, 12)
 	
+	SoundManager.play_random_sfx(Sounds.BREAK, .8)
 	for i in warrior.get_reward():
 		dragon.add_segment()
 	warrior.queue_free()

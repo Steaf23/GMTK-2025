@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://bupsu2mvx1scy"]
+[gd_scene load_steps=28 format=4 uid="uid://bupsu2mvx1scy"]
 
 [ext_resource type="PackedScene" uid="uid://d8o1vugqmmxy" path="res://dragon/dragon.tscn" id="1_fj7yv"]
 [ext_resource type="Script" uid="uid://ltdh8p4c31as" path="res://world.gd" id="1_tlwt5"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://o6oogmonpumm" path="res://Other_sprites/temple tileset.png" id="8_2o6r5"]
 [ext_resource type="PackedScene" uid="uid://d0pwau4w45s2f" path="res://Util/pause_menu.tscn" id="8_gbfbk"]
 [ext_resource type="Texture2D" uid="uid://dd6slv8k2o2pg" path="res://Other_sprites/tree.png" id="9_70uel"]
+[ext_resource type="PackedScene" uid="uid://butolus6l7mly" path="res://warrior/pot_warrior.tscn" id="10_hiqwa"]
 [ext_resource type="Texture2D" uid="uid://08p1i4gdwi83" path="res://Other_sprites/leaves.png" id="13_2o6r5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wse8f"]
@@ -436,6 +437,27 @@ tile_set = SubResource("TileSet_dwbse")
 
 [node name="Enemies" type="Node2D" parent="."]
 
+[node name="PotWarrior" parent="Enemies" instance=ExtResource("10_hiqwa")]
+position = Vector2(376, 171)
+
+[node name="PotWarrior2" parent="Enemies" instance=ExtResource("10_hiqwa")]
+position = Vector2(328, 170)
+
+[node name="PotWarrior3" parent="Enemies" instance=ExtResource("10_hiqwa")]
+position = Vector2(275, 171)
+
+[node name="PotWarrior4" parent="Enemies" instance=ExtResource("10_hiqwa")]
+position = Vector2(36, 326)
+
+[node name="PotWarrior5" parent="Enemies" instance=ExtResource("10_hiqwa")]
+position = Vector2(31, 31)
+
+[node name="PotWarrior6" parent="Enemies" instance=ExtResource("10_hiqwa")]
+position = Vector2(606, 27)
+
+[node name="PotWarrior7" parent="Enemies" instance=ExtResource("10_hiqwa")]
+position = Vector2(605, 331)
+
 [node name="Dragon" parent="." instance=ExtResource("1_fj7yv")]
 
 [node name="BodySegment" parent="Dragon/Body" index="0"]
@@ -582,13 +604,23 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Segments: 0"
 
-[node name="DEBUG" type="Label" parent="HUD"]
+[node name="MarginContainer2" type="MarginContainer" parent="HUD"]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -23.0
+offset_top = -40.0
 offset_right = 40.0
 grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Time" type="Label" parent="HUD/MarginContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
