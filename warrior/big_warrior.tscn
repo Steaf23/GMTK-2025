@@ -45,7 +45,7 @@ animations = [{
 }]
 
 [node name="BigWarrior" instance=ExtResource("1_8f3ye")]
-max_health = 3
+max_health = 4
 
 [node name="WarriorMovement" parent="Components" index="0" node_paths=PackedStringArray("warrior") instance=ExtResource("2_jcoxx")]
 speed = 20

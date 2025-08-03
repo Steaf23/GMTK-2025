@@ -7,6 +7,11 @@ var cur_dir: Vector2 = Vector2.RIGHT
 
 var is_eating: bool = false
 
+var bite_input: bool = false
+
+signal start_eating()
+signal finish_eating()
+
 
 func _physics_process(delta: float) -> void:
 	if not is_eating:
@@ -28,11 +33,35 @@ func _physics_process(delta: float) -> void:
 	$HeadPivot.rotation = velocity.angle()
 
 
-func bite() -> void:
-	%Sprite.play("bite")
+#func _on_sprite_animation_finished() -> void:
+	#if %Sprite.animation == "open":
+		#if not bite_input:
+			## entering the bite phase
+			#$HeadPivot/Mouth/MouthShape.set_deferred("disabled", false)
+			#
+			#await get_tree().create_timer(0.3).timeout
+			#
+			#$HeadPivot/Mouth/MouthShape.set_deferred("disabled", true)
+		#else:
+			## TODO: add bite SFX
+			#%Sprite.play("default")
+		
 
 
-func _on_sprite_animation_finished() -> void:
-	if %Sprite.animation == "bite":
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("bite"):
+		bite_input = true
+		%Sprite.play("open")
+		start_eating.emit()
+	
+	if event.is_action_released("bite"):
+		bite_input = false
 		%Sprite.play("default")
 		
+		$HeadPivot/Mouth/MouthShape.set_deferred("disabled", false)
+			
+		await get_tree().create_timer(0.3).timeout
+		
+		finish_eating.emit()
+		$HeadPivot/Mouth/MouthShape.set_deferred("disabled", true)
+	

@@ -7,3 +7,7 @@ signal eaten()
 
 func eat() -> void:
 	eaten.emit()
+	
+	if owner is Warrior:
+		await get_tree().create_timer(0.3).timeout
+		owner.killed.emit()

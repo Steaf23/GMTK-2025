@@ -123,6 +123,7 @@ _data = {
 bg_color = Color(0.682353, 0.0156863, 0.482353, 1)
 
 [node name="WarriorAttack" type="Node2D"]
+z_index = 1
 script = ExtResource("1_c6n77")
 attack_distance = 30
 

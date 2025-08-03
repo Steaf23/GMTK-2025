@@ -16,12 +16,13 @@ extends Node2D
 @onready var started: bool = false
 
 @onready var dragon_radius_sq = dragon_segment_radius * dragon_segment_radius
+@onready var dragon_head_radius_sq = 200 * 200
 
 # scene: cost
 var spawnables: Array = [
 	{"scene": preload("res://warrior/pot_warrior.tscn"), "weight": 1},
 	{"scene": preload("res://warrior/small_warrior.tscn"), "weight": 5},
-	{"scene": preload("res://warrior/big_warrior.tscn"), "weight": 15},
+	{"scene": preload("res://warrior/big_warrior.tscn"), "weight": 20},
 ]
 
 func start() -> void:
@@ -37,7 +38,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_spawn_timer_timeout() -> void:
-	var budget = difficulty * base_budget
+	var budget = difficulty * base_budget + 5
 	
 	var scenes: Array[PackedScene] = []
 	
@@ -92,7 +93,7 @@ func overlaps_dragon(pos: Vector2) -> bool:
 	if not Global.dragon:
 		return false
 	
-	if Global.dragon.head.global_position.distance_squared_to(pos) <= dragon_radius_sq:
+	if Global.dragon.head.global_position.distance_squared_to(pos) <= dragon_head_radius_sq:
 		return true
 		
 	for s in Global.dragon.segments():

@@ -20,10 +20,21 @@ metadata/_snap_count = 14
 [sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tlwt5"]
-radius = 7.0
+radius = 12.0384
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5ebm8"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_g2ok4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_qw8pt")
+}],
+"loop": false,
+"name": &"default",
+"speed": 7.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("3_2yoc3")
@@ -36,21 +47,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("6_r8lk1")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_g2ok4")
 }],
 "loop": false,
-"name": &"bite",
+"name": &"open",
 "speed": 15.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("7_qw8pt")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qw8pt"]
@@ -87,8 +87,9 @@ position = Vector2(10, 0)
 collision_layer = 7
 collision_mask = 7
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/HeadPivot/Mouth"]
+[node name="MouthShape" type="CollisionShape2D" parent="Head/HeadPivot/Mouth"]
 shape = SubResource("CircleShape2D_tlwt5")
+disabled = true
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Head/HeadPivot"]
 unique_name_in_owner = true
@@ -114,7 +115,8 @@ autostart = true
 wait_time = 3.0
 one_shot = true
 
+[connection signal="finish_eating" from="Head" to="." method="_on_head_finish_eating"]
+[connection signal="start_eating" from="Head" to="." method="_on_head_start_eating"]
 [connection signal="area_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_area_entered"]
 [connection signal="body_entered" from="Head/HeadPivot/Mouth" to="." method="_on_mouth_body_entered"]
-[connection signal="animation_finished" from="Head/HeadPivot/Sprite" to="Head" method="_on_sprite_animation_finished"]
 [connection signal="body_exited" from="Head/SegmentDetect" to="." method="_on_segment_detect_body_exited"]

@@ -11,8 +11,6 @@ signal player_died()
 
 @onready var head: CharacterBody2D = $Head
 
-var eating_count = 0
-
 var strangle_points: PackedVector2Array = []
 
 # array of arrays, keeping track of segments that are part of a possible constriction.
@@ -84,27 +82,6 @@ func consumable_entered_mouth(consumable: Consumable) -> void:
 		return
 	
 	consumable.eat()
-	head.is_eating = true
-	speed_mult = 0.6
-	eating_count += 1
-	head.bite()
-	await get_tree().create_timer(0.5).timeout
-
-	eating_count = max(eating_count - 1, 0)
-	head.is_eating = eating_count > 0
-	if not head.is_eating:
-		speed_mult = 1.0
-	
-	
-	# If the consumable gets removed in the .5 seconds that the dragon is eating it, its not a valid consumable anymore.
-	if not is_instance_valid(consumable):
-		return
-		
-	if consumable:
-		consumable.owner.queue_free()
-	
-	for i in consumable.reward:
-		add_segment()
 
 
 func _on_mouth_body_entered(body: Node2D) -> void:
@@ -267,3 +244,11 @@ func take_damage(part: Node2D) -> void:
 	remove_segment()
 	$InvincibleTimer.start()
 	
+
+
+func _on_head_start_eating() -> void:
+	speed_mult = 0.6
+
+
+func _on_head_finish_eating() -> void:
+	speed_mult = 1.0
