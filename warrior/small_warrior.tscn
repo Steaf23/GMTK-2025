@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cm6dxws3xoq61"]
+
+[ext_resource type="PackedScene" uid="uid://b7coq10u52ija" path="res://warrior/warrior.tscn" id="1_xvykv"]
+[ext_resource type="PackedScene" uid="uid://cr3ov5c5mrfn4" path="res://warrior/warrior_attack.tscn" id="2_mjidd"]
+[ext_resource type="PackedScene" uid="uid://b0yqolnher2n3" path="res://warrior/warrior_movement.tscn" id="3_dt7yd"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xvykv"]
+radius = 7.0
+height = 22.0
+
+[node name="SmallWarrior" instance=ExtResource("1_xvykv")]
+max_health = 2
+can_always_be_damaged = true
+
+[node name="WarriorAttack" parent="Components" index="0" node_paths=PackedStringArray("warrior") instance=ExtResource("2_mjidd")]
+warrior = NodePath("../..")
+
+[node name="Cooldown" parent="Components/WarriorAttack" index="2"]
+wait_time = 5.0
+
+[node name="WarriorMovement" parent="Components" index="1" node_paths=PackedStringArray("warrior") instance=ExtResource("3_dt7yd")]
+warrior = NodePath("../..")
+
+[node name="CollisionShape2D" parent="ConsumeArea" index="0"]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_xvykv")
+
+[node name="RetargetTimer" parent="." index="8"]
+wait_time = 0.25
+
+[editable path="Components/WarriorAttack"]

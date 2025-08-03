@@ -4,7 +4,7 @@ extends Node2D
 signal player_died()
 
 @export var follow_distance: int = 15
-@export var speed: int = 150
+@export var speed: int = 120
 @export var speed_mult: float = 1.0
 
 @export var speed_curve: Curve
@@ -22,7 +22,7 @@ var constriction_windows: ConstrictionManager = ConstrictionManager.new()
 func _ready() -> void:
 	Global.dragon = self
 	
-	for i in 3:
+	for i in 20:
 		add_segment()
 	
 
@@ -39,7 +39,7 @@ func _physics_process(delta: float) -> void:
 		
 		leading = b
 		idx += 1
-	
+
 	
 func add_segment() -> void:
 	var segment = preload("res://dragon/body_segment.tscn").instantiate()
@@ -83,6 +83,7 @@ func consumable_entered_mouth(consumable: Consumable) -> void:
 	if not consumable.owner.can_be_eaten:
 		return
 	
+	consumable.eat()
 	head.is_eating = true
 	speed_mult = 0.6
 	eating_count += 1
@@ -93,10 +94,17 @@ func consumable_entered_mouth(consumable: Consumable) -> void:
 	head.is_eating = eating_count > 0
 	if not head.is_eating:
 		speed_mult = 1.0
+	
+	
+	# If the consumable gets removed in the .5 seconds that the dragon is eating it, its not a valid consumable anymore.
+	if not is_instance_valid(consumable):
+		return
 		
 	if consumable:
 		consumable.owner.queue_free()
-	add_segment()
+	
+	for i in consumable.reward:
+		add_segment()
 
 
 func _on_mouth_body_entered(body: Node2D) -> void:
@@ -202,6 +210,8 @@ func _on_segment_detect_body_exited(body: Node2D) -> void:
 	var window = constriction_windows.add_window($Body.get_child_count() - 1, body_idx)
 	
 	var start_segment_body = $Body.get_child(window.start_segment)
+	if start_segment_body.body_collision_exited.is_connected(_on_segment_exited_segment.bind(start_segment_body)):
+		return
 	#TODO: in eliminating double connection we can probably get rid of the left over windows too.
 	start_segment_body.body_collision_exited.connect(_on_segment_exited_segment.bind(start_segment_body), ConnectFlags.CONNECT_ONE_SHOT)
 
@@ -223,7 +233,8 @@ func _on_segment_exited_segment(body: Node2D, origin_body: Segment) -> void:
 		return
 		
 	var start_segment_body = $Body.get_child(window.start_segment)
-	start_segment_body.body_collision_exited.connect(_on_segment_exited_segment.bind(start_segment_body), ConnectFlags.CONNECT_ONE_SHOT)
+	if not start_segment_body.body_collision_exited.is_connected(_on_segment_exited_segment.bind(start_segment_body)):
+		start_segment_body.body_collision_exited.connect(_on_segment_exited_segment.bind(start_segment_body), ConnectFlags.CONNECT_ONE_SHOT)
 	
 	var res = update_captured_warriors(window)
 	if res.is_empty():

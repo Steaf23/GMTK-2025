@@ -5,7 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://wme3d416bn55" path="res://dragon/dragon_sprites/dragon_torsof.png" id="3_7frwa"]
 [ext_resource type="Texture2D" uid="uid://c8gsu3diuycp6" path="res://dragon/dragon_sprites/dragon_tailf.png" id="5_7frwa"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_aqk2v"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_7frwa"]
+radius = 9.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_7frwa"]
 animations = [{
@@ -43,11 +44,10 @@ motion_mode = 1
 script = ExtResource("1_ll60o")
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_aqk2v")
+shape = SubResource("CircleShape2D_7frwa")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7frwa")
-animation = &"tail"
 flip_h = true
 
 [node name="SegmentDetect" type="Area2D" parent="."]

@@ -14,7 +14,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 
 
 func precondition() -> bool:
-	if not $Cooldown.is_stopped():
+	if not $Cooldown.is_stopped() or not $SpawnCooldown.is_stopped():
 		return false
 	
 	if not warrior.dragon_segment:
@@ -28,3 +28,7 @@ func _physics_process(delta: float) -> void:
 		$Hitbox.look_at(warrior.dragon_segment.global_position)
 		$Cooldown.start()
 		$AnimationPlayer.play("attack")
+
+
+func _process(delta: float) -> void:
+	$CooldownBar.value = $Cooldown.time_left / $Cooldown.wait_time

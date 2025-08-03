@@ -2,6 +2,5 @@
 
 [ext_resource type="Script" uid="uid://doyvlumnh0xjb" path="res://warrior/warrior_movement.gd" id="1_77pcj"]
 
-[node name="WarriorMovement" type="Node" node_paths=PackedStringArray("warrior")]
+[node name="WarriorMovement" type="Node"]
 script = ExtResource("1_77pcj")
-warrior = NodePath("")

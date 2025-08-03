@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://butolus6l7mly"]
+
+[ext_resource type="PackedScene" uid="uid://b7coq10u52ija" path="res://warrior/warrior.tscn" id="1_7fal1"]
+[ext_resource type="Script" uid="uid://2wl4rrp6jx37" path="res://warrior/pot_warrior.gd" id="2_d7116"]
+[ext_resource type="Texture2D" uid="uid://druft2oc8mgli" path="res://Other_sprites/big_pot.png" id="3_qfdel"]
+[ext_resource type="Texture2D" uid="uid://dis7p84t8n8kq" path="res://Other_sprites/small_pot.png" id="4_tfdvp"]
+[ext_resource type="Texture2D" uid="uid://bqthn3kvv0c4y" path="res://Other_sprites/gold_pot.png" id="4_wv8kw"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qfdel"]
+radius = 7.0
+height = 20.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wv8kw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_qfdel")
+}],
+"loop": true,
+"name": &"big",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_wv8kw")
+}],
+"loop": true,
+"name": &"gold",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_tfdvp")
+}],
+"loop": true,
+"name": &"small",
+"speed": 5.0
+}]
+
+[node name="PotWarrior" instance=ExtResource("1_7fal1")]
+script = ExtResource("2_d7116")
+can_be_eaten = true
+
+[node name="CollisionShape2D" parent="ConsumeArea" index="0"]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_qfdel")
+
+[node name="Sprite2D" parent="." index="5"]
+modulate = Color(1, 1, 1, 1)
+sprite_frames = SubResource("SpriteFrames_wv8kw")
+animation = &"small"
+autoplay = "small"

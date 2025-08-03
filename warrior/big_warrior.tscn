@@ -1,0 +1,77 @@
+[gd_scene load_steps=10 format=3 uid="uid://dxaugeji2cppv"]
+
+[ext_resource type="PackedScene" uid="uid://b7coq10u52ija" path="res://warrior/warrior.tscn" id="1_8f3ye"]
+[ext_resource type="Texture2D" uid="uid://cn6rmxaesinhp" path="res://warrior/warrior_sprites/warrior_big_back.png" id="2_2ynjj"]
+[ext_resource type="PackedScene" uid="uid://b0yqolnher2n3" path="res://warrior/warrior_movement.tscn" id="2_jcoxx"]
+[ext_resource type="PackedScene" uid="uid://cr3ov5c5mrfn4" path="res://warrior/warrior_attack.tscn" id="3_q46oy"]
+[ext_resource type="Texture2D" uid="uid://citfx0cdt3js6" path="res://warrior/warrior_sprites/warrior_big_attack_back.png" id="3_yv0bw"]
+[ext_resource type="Texture2D" uid="uid://b7mgt57g7b0b0" path="res://warrior/warrior_sprites/warrior_big.png" id="4_jcoxx"]
+[ext_resource type="Texture2D" uid="uid://c3s4p6d6kr2bl" path="res://warrior/warrior_sprites/sword_big.png" id="4_q46oy"]
+[ext_resource type="Texture2D" uid="uid://bsnifd7my0p45" path="res://warrior/warrior_sprites/warrior_big_attack.png" id="5_q46oy"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_st6ys"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2ynjj")
+}],
+"loop": true,
+"name": &"back",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_yv0bw")
+}],
+"loop": true,
+"name": &"back_attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_jcoxx")
+}],
+"loop": true,
+"name": &"front",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_q46oy")
+}],
+"loop": true,
+"name": &"front_attack",
+"speed": 5.0
+}]
+
+[node name="BigWarrior" instance=ExtResource("1_8f3ye")]
+max_health = 3
+
+[node name="WarriorMovement" parent="Components" index="0" node_paths=PackedStringArray("warrior") instance=ExtResource("2_jcoxx")]
+speed = 20
+warrior = NodePath("../..")
+
+[node name="WarriorAttack" parent="Components" index="1" node_paths=PackedStringArray("warrior") instance=ExtResource("3_q46oy")]
+warrior = NodePath("../..")
+
+[node name="WeaponPivot" parent="Components/WarriorAttack/Hitbox" index="1"]
+modulate = Color(0.397131, 0.540046, 0.510178, 1)
+
+[node name="SwordBig" type="Sprite2D" parent="Components/WarriorAttack/Hitbox/WeaponPivot" index="0"]
+position = Vector2(36, 1)
+rotation = 0.785398
+texture = ExtResource("4_q46oy")
+
+[node name="Rays" parent="." index="3"]
+visible = false
+
+[node name="Sprite2D" parent="." index="5"]
+modulate = Color(0.397131, 0.540046, 0.510178, 1)
+sprite_frames = SubResource("SpriteFrames_st6ys")
+animation = &"front_attack"
+autoplay = ""
+
+[node name="AnimationPlayer" parent="." index="7"]
+speed_scale = 0.75
+
+[editable path="Components/WarriorAttack"]

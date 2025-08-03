@@ -1,19 +1,19 @@
-[gd_scene load_steps=12 format=3 uid="uid://b7coq10u52ija"]
+[gd_scene load_steps=16 format=3 uid="uid://b7coq10u52ija"]
 
 [ext_resource type="Script" uid="uid://cc28b3oqnrpw0" path="res://consume_area.gd" id="1_bgok4"]
 [ext_resource type="Script" uid="uid://dgw8gislf8qdr" path="res://warrior/warrior.gd" id="1_pkbmn"]
-[ext_resource type="PackedScene" uid="uid://cr3ov5c5mrfn4" path="res://warrior/warrior_attack.tscn" id="2_wxviw"]
-[ext_resource type="PackedScene" uid="uid://b0yqolnher2n3" path="res://warrior/warrior_movement.tscn" id="3_6mo0w"]
 [ext_resource type="Texture2D" uid="uid://c2p1psko1nsau" path="res://warrior/warrior_sprites/warrior_back_g.png" id="5_s5rb1"]
 [ext_resource type="Texture2D" uid="uid://coxtdp7jv2i1s" path="res://warrior/warrior_sprites/warrior_back_attack_g.png" id="6_w5tr0"]
+[ext_resource type="Texture2D" uid="uid://bt6wma0ffce5k" path="res://Other_sprites/healthbar.png" id="7_s5rb1"]
 [ext_resource type="Texture2D" uid="uid://ca74urk658iku" path="res://warrior/warrior_sprites/warrior_g.png" id="7_tajao"]
 [ext_resource type="Texture2D" uid="uid://bq3aaw43q3j7b" path="res://warrior/warrior_sprites/warrior_attack_g.png" id="8_lulqq"]
+[ext_resource type="Texture2D" uid="uid://3afnmjfm4pj4" path="res://Other_sprites/healthbar_green.png" id="8_w5tr0"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_gnuc2"]
-radius = 12.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_s5rb1"]
+radius = 22.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dvau4"]
-radius = 18.0278
+radius = 9.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cn8nl"]
 animations = [{
@@ -50,23 +50,57 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="Animation" id="Animation_w5tr0"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_s5rb1"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(0.287175, 2.73208, 0.933035),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -2), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tajao"]
+_data = {
+&"RESET": SubResource("Animation_w5tr0"),
+&"walk": SubResource("Animation_s5rb1")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gnuc2"]
+
 [node name="Warrior" type="CharacterBody2D"]
-collision_layer = 15
-collision_mask = 15
+collision_layer = 8
+collision_mask = 8
 motion_mode = 1
 script = ExtResource("1_pkbmn")
-max_health = 3
 
 [node name="Components" type="Node2D" parent="."]
 
-[node name="WarriorAttack" parent="Components" node_paths=PackedStringArray("warrior") instance=ExtResource("2_wxviw")]
-warrior = NodePath("../..")
-
-[node name="WarriorMovement" parent="Components" node_paths=PackedStringArray("warrior") instance=ExtResource("3_6mo0w")]
-warrior = NodePath("../..")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_gnuc2")
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_s5rb1")
 
 [node name="ConsumeArea" type="Area2D" parent="." groups=["consumable"]]
 script = ExtResource("1_bgok4")
@@ -118,18 +152,45 @@ collision_mask = 15
 one_shot = true
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.703461, 0.402284, 0.28521, 1)
 sprite_frames = SubResource("SpriteFrames_cn8nl")
-animation = &"front_attack"
+animation = &"front"
 autoplay = "front"
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = -21.0
-offset_top = -22.0
-offset_right = 22.0
-offset_bottom = -11.0
+[node name="ProgressBar" type="TextureProgressBar" parent="."]
+z_index = 1
+offset_left = -22.0
+offset_top = 13.0
+offset_right = 21.0
+offset_bottom = 24.0
 max_value = 5.0
-step = 1.0
 value = 1.0
-show_percentage = false
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 3
+stretch_margin_right = 7
+stretch_margin_bottom = 5
+texture_under = ExtResource("7_s5rb1")
+texture_progress = ExtResource("8_w5tr0")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_tajao")
+}
+
+[node name="RetargetTimer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 15
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_gnuc2")
+
+[connection signal="eaten" from="ConsumeArea" to="." method="_on_consume_area_eaten"]
 [connection signal="timeout" from="ConstrictTimer" to="." method="_on_constrict_timer_timeout"]
+[connection signal="timeout" from="RetargetTimer" to="." method="_on_retarget_timer_timeout"]

@@ -34,6 +34,7 @@ segment=""
 [layer_names]
 
 2d_physics/layer_1="dragon"
+2d_physics/layer_4="warrior"
 
 [physics]
 
